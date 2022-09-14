@@ -1,11 +1,11 @@
 public class Controller {
 
-    Abstraction abstraction;
-    Presentation presentation;
+    private Abstraction abstraction;
+    private Presentation presentation;
 
-    public Controller(Abstraction abstraction, Presentation presentation) {
-        this.abstraction = abstraction;
-        this.presentation = presentation;
+    public Controller() {
+        this.abstraction = new Abstraction(this);
+        this.presentation = new Presentation(this);
 
     }
 }

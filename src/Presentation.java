@@ -1,8 +1,12 @@
+import javax.naming.ldap.Control;
 import javax.swing.*;
 
 public class Presentation extends JFrame {
 
-    public Presentation() {
+    private Controller controller;
+
+    public Presentation(Controller controller) {
+        this.controller = controller;
 
     }
 }
