@@ -1,17 +1,17 @@
 public class Game {
 
     private Grid grid;
-    private int Timer;
+    private int timer;
     private SpellsBook spellsBook;
 
     public Game() {
-        setupGrid();
+        setupGrid(10,10);
         setupSpellsBook();
         startTimer();
     }
 
-    private void setupGrid() {
-        this.grid = new Grid();
+    private void setupGrid(int rows, int columns) {
+        this.grid = new Grid(rows, columns);
     }
 
     private void setupSpellsBook() {
