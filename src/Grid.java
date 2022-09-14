@@ -4,26 +4,26 @@ import java.util.ArrayList;
 public class Grid {
 
     private final int rows, columns;
-    private ArrayList<ArrayList<Tile>> grid;
+    private ArrayList<ArrayList<Tile>> gridTable;
 
     public Grid(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
-        this.grid = new ArrayList<>(this.columns);
-        initGrid();
+        this.gridTable = new ArrayList<>(this.columns);
+        createGridTable();
     }
 
-    private void initGrid() {
-        for (ArrayList<Tile> column : this.grid) {
+    private void createGridTable() {
+        for (ArrayList<Tile> column : this.gridTable) {
             column = new ArrayList<>(this.rows);
         }
     }
 
     private Point getCoords(Tile tile) {
-        for (ArrayList<Tile> column : this.grid) {
+        for (ArrayList<Tile> column : this.gridTable) {
             for (Tile Tile : column) {
                 if (Tile == tile) {
-                    return new Point(this.grid.indexOf(column), column.indexOf(Tile));
+                    return new Point(this.gridTable.indexOf(column), column.indexOf(Tile));
                 }
             }
         }
@@ -33,7 +33,7 @@ public class Grid {
 
     private Tile getTile(Point Coords) {
         if(Coords.x>=0 && Coords.y>=0 && Coords.x<this.columns && Coords.y<this.rows) {
-            return this.grid.get(Coords.x).get(Coords.y);
+            return this.gridTable.get(Coords.x).get(Coords.y);
         }
         System.out.print("Grid.getTile() error: Out of grid");
         return null;
@@ -48,4 +48,8 @@ public class Grid {
         neighbors.add(this.getTile(new Point(tileCoords.x-1, tileCoords.y)));
         return neighbors;
     }
+
+    public ArrayList<ArrayList<Tile>> getGridTable() {return this.gridTable;}
+    public int getColumns() {return this.columns;}
+    public int getRows() {return this.rows;}
 }
