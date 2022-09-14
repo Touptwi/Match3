@@ -8,4 +8,7 @@ public class Controller {
         this.presentation = new Presentation(this);
 
     }
+
+    public Abstraction getAbstraction() {return this.abstraction;}
+    public Presentation getPresentation() {return this.presentation;}
 }
