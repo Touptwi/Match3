@@ -1,6 +1,8 @@
 public class Main {
 
     static public void main(String[] args) {
-        //TODO
+        Abstraction abstraction = new Abstraction();
+        Presentation presentation = new Presentation();
+        Controller controller = new Controller(abstraction, presentation);
     }
 }
