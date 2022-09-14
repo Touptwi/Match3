@@ -21,4 +21,6 @@ public class Game {
     private void startTimer() {
         //TODO
     }
+
+    public Grid getGrid() {return this.grid;}
 }
