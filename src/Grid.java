@@ -16,10 +16,13 @@ public class Grid {
     private void createGridTable() {
         for (ArrayList<Tile> column : this.gridTable) {
             column = new ArrayList<>(this.rows);
+            for (Tile tile : column) {
+                tile = new Jewel(this);
+            }
         }
     }
 
-    private Point getCoords(Tile tile) {
+    public Point getCoords(Tile tile) {
         for (ArrayList<Tile> column : this.gridTable) {
             for (Tile Tile : column) {
                 if (Tile == tile) {
@@ -31,7 +34,7 @@ public class Grid {
         return new Point(-1, -1);
     }
 
-    private Tile getTile(Point Coords) {
+    public Tile getTile(Point Coords) {
         if(Coords.x>=0 && Coords.y>=0 && Coords.x<this.columns && Coords.y<this.rows) {
             return this.gridTable.get(Coords.x).get(Coords.y);
         }
@@ -39,7 +42,7 @@ public class Grid {
         return null;
     }
 
-    private ArrayList<Tile> getNeighbors(Tile tile) {
+    public ArrayList<Tile> getNeighbors(Tile tile) {
         ArrayList<Tile> neighbors = new ArrayList<>();
         Point tileCoords = this.getCoords(tile);
         neighbors.add(this.getTile(new Point(tileCoords.x, tileCoords.y+1)));
