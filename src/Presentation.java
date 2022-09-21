@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Presentation extends JFrame {
 
@@ -26,24 +27,17 @@ public class Presentation extends JFrame {
 
     private void setupGrid() {
         Grid grid = this.controller.getAbstraction().getGame().getGrid();
-        JPanel GridPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics gridPanelGraphics) {
-                super.paintComponent(gridPanelGraphics);
-                gridPanelGraphics.setColor(Color.BLACK);
+        JPanel GridPanel = new JPanel();
+        gridPanel.setLayout(new GridLayout(grid.getRows(), grid.getColumns()));
 
-                for (int i=0; i<=grid.getRows(); i++) {
-                    int y = i*this.getHeight()/grid.getRows();
-                    gridPanelGraphics.drawLine(0,y,this.getWidth(),y);
-                }
-                for (int j=0; j<grid.getColumns(); j++) {
-                    int x = j*this.getWidth()/grid.getColumns();
-                    gridPanelGraphics.drawLine(x,0,x, this.getHeight());
-                }
+        for (int y = 0; y < grid.getColumns(); y++) {
+            for (int x = 0; x < grid.getRows(); x++) {
+                ImageIcon tileImage = new ImageIcon(getClass().getResource(grid.getTile(new Point(x, y)).getType().name()) + ".png");
+                gridPanel.add(new JLabel(tileImage));
             }
-        };
-        
-        this.gridPanel = GridPanel;
-        this.add(this.gridPanel, BorderLayout.CENTER);
+
+            this.gridPanel = GridPanel;
+            this.add(this.gridPanel, BorderLayout.CENTER);
+        }
     }
 }
