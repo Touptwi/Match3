@@ -4,7 +4,7 @@ public abstract class Tile {
 
     private Grid grid;
 
-    public enum Type {RED, GREEN, BLUE, PURPLE, YELLOW}
+    public enum Type {RED_JEWEL, GREEN_JEWEL, BLUE_JEWEL, PURPLE_JEWEL, YELLOW_JEWEL}
     private Type type;
 
     public Tile(Grid grid, Type type) {
