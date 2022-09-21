@@ -23,4 +23,8 @@ public class Game {
     }
 
     public Grid getGrid() {return this.grid;}
+
+    public int getTimer() {return this.timer;}
+
+    public SpellsBook getSpellsBook() {return this.spellsBook;}
 }
