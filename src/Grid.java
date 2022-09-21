@@ -9,15 +9,15 @@ public class Grid {
     public Grid(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
-        this.gridTable = new ArrayList<>(this.columns);
+        this.gridTable = new ArrayList<>();
         createGridTable();
     }
 
     private void createGridTable() {
-        for (ArrayList<Tile> column : this.gridTable) {
-            column = new ArrayList<>(this.rows);
-            for (Tile tile : column) {
-                tile = new Jewel(this);
+        for (int i=0; i<this.columns; i++) {
+            this.gridTable.add(new ArrayList<>(this.rows));
+            for (int j=0; j<this.rows; j++) {
+                this.gridTable.get(i).add(new Jewel(this));
             }
         }
     }
