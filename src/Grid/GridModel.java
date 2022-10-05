@@ -10,6 +10,7 @@ public class GridModel {
 
     private final int rows, columns;
     private ArrayList<ArrayList<Tile>> gridTable;
+	private Dimension jewelSize;
 
 	private Tile selectedTile;
     
@@ -20,6 +21,7 @@ public class GridModel {
         this.rows = rows;
         this.columns = columns;
         this.gridTable = new ArrayList<>();
+		this.jewelSize = new Dimension(75,75);
         createGridTable();
     }
 
@@ -196,6 +198,7 @@ public class GridModel {
     public ArrayList<ArrayList<Tile>> getGridTable() {return this.gridTable;}
     public int getColumns() {return this.columns;}
     public int getRows() {return this.rows;}
+	public Dimension getJewelSize() {return this.jewelSize;}
 
     public Tile getSelectedTile() {return this.selectedTile;}
     public void setSelectedTile(Tile Tile) {this.selectedTile = Tile;}
