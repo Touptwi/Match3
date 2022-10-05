@@ -30,9 +30,9 @@ public class Grid extends JComponent {
     }
     //Layout
     @Override
-    public Dimension getSize(){return new Dimension(75*10, 75*10);}
+    public Dimension getSize(){return new Dimension(this.model.getJewelSize().width*this.model.getColumns(), this.model.getJewelSize().height*this.model.getRows());}
     @Override
-    public Dimension getPreferredSize(){return new Dimension(750, 750);}
+    public Dimension getPreferredSize(){return getSize();}
 
     //Set up an awful Listener
     private void setupMouseListener() {
@@ -40,16 +40,16 @@ public class Grid extends JComponent {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
-                System.out.print("Echange entre ("+e.getPoint().x/75+", "+e.getPoint().y/75+") et ");
-                getModel().setSelectedTile(getModel().getTile(new Point(e.getPoint().x/75, e.getPoint().y/75)));
+                System.out.print("Echange entre ("+e.getPoint().x/getModel().getJewelSize().width+", "+e.getPoint().y/getModel().getJewelSize().height+") et ");
+                getModel().setSelectedTile(getModel().getTile(new Point(e.getPoint().x/getModel().getJewelSize().width, e.getPoint().y/getModel().getJewelSize().height)));
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                System.out.print("("+e.getPoint().x/75+", "+e.getPoint().y/75+")\n");
+                System.out.print("("+e.getPoint().x/getModel().getJewelSize().width+", "+e.getPoint().y/getModel().getJewelSize().height+")\n");
                 getModel().switchTiles(getSelectedTile(),
-                        getModel().getTile(new Point(e.getPoint().x/75, e.getPoint().y/75)));
+                        getModel().getTile(new Point(e.getPoint().x/getModel().getJewelSize().width, e.getPoint().y/getModel().getJewelSize().height)));
                 repaint();
             }
         });
