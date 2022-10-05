@@ -12,6 +12,8 @@ public class GridView {
     public void paint(Graphics2D g, Grid grid) {
         this.g = g;
         this.grid = grid;
+        this.g.setColor(Color.WHITE);
+        this.g.fillRect(0,0, grid.getWidth(), grid.getHeight());
         drawGrid();
         if (cursorPoint!=null)
             drawSelectedTile();
@@ -34,8 +36,9 @@ public class GridView {
     }
 
     private void drawTile(Tile Tile, Point Position) {
-        this.g.drawImage(this.grid.getJewelImages().get(Tile.getType().ordinal()), Position.x, Position.y,
-                this.grid.getModel().getJewelSize().width, this.grid.getModel().getJewelSize().height, this.grid);
+        if(Tile.getType()!=null)
+            this.g.drawImage(this.grid.getJewelImages().get(Tile.getType().ordinal()), Position.x, Position.y,
+                            this.grid.getModel().getJewelSize().width, this.grid.getModel().getJewelSize().height, this.grid);
     }
 
     public void setCursorPoint(Point newCursorpoint) {this.cursorPoint = newCursorpoint;}

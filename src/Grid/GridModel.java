@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -170,7 +171,10 @@ public class GridModel {
     }
     
     public Tile getNeighbor(Tile tile, Direction d) {
-    	
+
+		if(tile==null)
+			return null;
+
     	Point coord = tile.getCoords();
     	switch(d) {
     	case NORTH :
@@ -224,6 +228,8 @@ public class GridModel {
             Type temp = Tile1.getType();
             Tile1.setType(Tile2.getType());
             Tile2.setType(temp);
+			checkMatch3To(Tile1);
+			checkMatch3To(Tile2);
         }
     }
 
@@ -238,4 +244,70 @@ public class GridModel {
             switchTiles(Tile, getNeighbors(Tile).get(3));
         }
     }
+
+	public void checkMatch3To(Tile Tile) {
+		for (ArrayList<Tile> Match : getLongMatchOf(Tile)) {
+			if(!Match.isEmpty()) {
+				System.out.print("\nFind Match with: "+"("+Tile.getCoords().x+","+Tile.getCoords().y+") ");
+				for (Tile tile : Match) {
+					System.out.print("("+tile.getCoords().x+","+tile.getCoords().y+") ");
+					getTile(tile.getCoords()).setType(null);
+				}
+				getTile(Tile.getCoords()).setType(null);
+			}
+		}
+	}
+
+	private ArrayList<ArrayList<Tile>> getPossibleMatchsOf(Tile Tile) {
+		ArrayList<ArrayList<Tile>> possibleMatchs = new ArrayList<>();
+		ArrayList<Tile> NorthMatch = new ArrayList<>();
+		ArrayList<Tile> EastMatch = new ArrayList<>();
+		ArrayList<Tile> SouthMatch = new ArrayList<>();
+		ArrayList<Tile> WestMatch = new ArrayList<>();
+		NorthMatch.add(getNeighbor(Tile, Direction.NORTH));
+		EastMatch.add(getNeighbor(Tile, Direction.EAST));
+		SouthMatch.add(getNeighbor(Tile, Direction.SOUTH));
+		WestMatch.add(getNeighbor(Tile, Direction.WEST));
+		for (int i = 1; i < 2; i++) {
+			NorthMatch.add(getNeighbor(NorthMatch.get(NorthMatch.size() - 1), Direction.NORTH));
+			EastMatch.add(getNeighbor(EastMatch.get(EastMatch.size() - 1), Direction.EAST));
+			SouthMatch.add(getNeighbor(SouthMatch.get(SouthMatch.size() - 1), Direction.SOUTH));
+			WestMatch.add(getNeighbor(WestMatch.get(WestMatch.size() - 1), Direction.WEST));
+		}
+		possibleMatchs.add(NorthMatch);
+		possibleMatchs.add(EastMatch);
+		possibleMatchs.add(SouthMatch);
+		possibleMatchs.add(WestMatch);
+		return possibleMatchs;
+	}
+
+	private ArrayList<ArrayList<Tile>> getMatchsOf(Tile Tile) {
+		ArrayList<ArrayList<Tile>> possibleMatchs = getPossibleMatchsOf(Tile);
+		for(int i=0 ; i< possibleMatchs.size(); i++) {
+			if(possibleMatchs.get(i).get(0)==null || possibleMatchs.get(i).get(0).getType()!=Tile.getType())
+				possibleMatchs.set(i, new ArrayList<>());
+			else if(possibleMatchs.get(i).get(1)==null || possibleMatchs.get(i).get(1).getType()!=Tile.getType())
+				if(!possibleMatchs.get((i+2)%4).isEmpty() && possibleMatchs.get((i+2)%4).get(0)!=null && possibleMatchs.get((i+2)%4).get(0).getType()==Tile.getType())
+					possibleMatchs.get(i).remove(1);
+				else
+					possibleMatchs.set(i, new ArrayList<>());
+		}
+		return possibleMatchs;
+	}
+
+	private ArrayList<ArrayList<Tile>> getLongMatchOf(Tile Tile) {
+		ArrayList<ArrayList<Tile>> Matchs = getMatchsOf(Tile);
+		for(int i=0 ; i< Matchs.size(); i++) {
+			Direction direction = Arrays.stream(Direction.values()).toList().get(i);
+			if(!Matchs.get(i).isEmpty()) {
+				Tile nextNeighbor = getNeighbor(Matchs.get(i).get(Matchs.get(i).size()-1), direction);
+				while (nextNeighbor!=null && nextNeighbor.getType() == Tile.getType()) {
+					Matchs.get(i).add(getNeighbor(Matchs.get(i).get(Matchs.get(i).size()-1), direction));
+					nextNeighbor = getNeighbor(Matchs.get(i).get(Matchs.get(i).size()-1), direction);
+				}
+			}
+		}
+		return Matchs;
+	}
 }
+
