@@ -70,7 +70,8 @@ public class Grid extends JComponent {
         	
         	@Override
         	public void mouseMoved(MouseEvent e) {
-        	//	handleMouseMoved(e);
+        		handleMouseMoved(e);
+        		repaint();
         	}
             
         });
@@ -84,6 +85,11 @@ public class Grid extends JComponent {
     	return getModel().getTile(new Point(p.x/jewelSize.width, 
     			                            p.y/jewelSize.height));
     			                
+    }
+    
+    private void handleMouseMoved(MouseEvent e) {
+    	Tile tileUnderMouse = getTileUnderMouse(e);
+    	//TODO : faire que la tile sous la souris sois highlighted 
     }
     
 }
