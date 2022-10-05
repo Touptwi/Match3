@@ -50,6 +50,15 @@ public class Grid extends JComponent {
                 System.out.print("("+e.getPoint().x/getModel().getJewelSize().width+", "+e.getPoint().y/getModel().getJewelSize().height+")\n");
                 getModel().switchTiles(getSelectedTile(),
                         getModel().getTile(new Point(e.getPoint().x/getModel().getJewelSize().width, e.getPoint().y/getModel().getJewelSize().height)));
+                getView().setCursorPoint(null);
+                repaint();
+            }
+        });
+        this.addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                super.mouseDragged(e);
+                getView().setCursorPoint(e.getPoint());
                 repaint();
             }
         });
