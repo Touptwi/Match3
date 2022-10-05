@@ -10,10 +10,11 @@ public class GridModel {
 
     private final int rows, columns;
     private ArrayList<ArrayList<Tile>> gridTable;
+
+	private Tile selectedTile;
     
     public enum Direction {NORTH, EAST, SOUTH, WEST}
     public enum Type {RED_JEWEL, GREEN_JEWEL, BLUE_JEWEL, PURPLE_JEWEL, YELLOW_JEWEL}
-
     
     public GridModel(int rows, int columns) {
         this.rows = rows;
@@ -191,7 +192,7 @@ public class GridModel {
     public int getColumns() {return this.columns;}
     public int getRows() {return this.rows;}
 
-    public Tile getSelectedTile() {return selectedTile;}
+    public Tile getSelectedTile() {return this.selectedTile;}
     public void setSelectedTile(Tile Tile) {this.selectedTile = Tile;}
 
     public void switchTiles(Tile Tile1, Tile Tile2) {
