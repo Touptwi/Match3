@@ -1,14 +1,13 @@
 public class Controller {
 
-    private Abstraction abstraction;
-    private Presentation presentation;
+    private Game game;
+    private View view;
 
     public Controller() {
-        this.abstraction = new Abstraction(this);
-        this.presentation = new Presentation(this);
-
+        this.game = new Game();
+        this.view = new View(this);
     }
 
-    public Abstraction getAbstraction() {return this.abstraction;}
-    public Presentation getPresentation() {return this.presentation;}
+    public Game getGame() {return this.game;}
+    public View getView() {return this.view;}
 }

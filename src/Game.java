@@ -1,3 +1,6 @@
+import Grid.Grid;
+import SpellsBook.SpellsBook;
+
 public class Game {
 
     private Grid grid;

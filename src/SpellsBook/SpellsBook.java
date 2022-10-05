@@ -1,3 +1,5 @@
+package SpellsBook;
+
 public class SpellsBook {
 
     public SpellsBook() {

@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Presentation extends JFrame {
+public class View extends JFrame {
 
     private Controller controller;
 
@@ -9,7 +9,7 @@ public class Presentation extends JFrame {
     private JPanel gridPanel;
     private JPanel spellsPanel;
 
-    public Presentation(Controller controller) {
+    public View(Controller controller) {
         this.controller = controller;
         setupWindow();
     }
@@ -40,21 +40,9 @@ public class Presentation extends JFrame {
         this.add(this.MainPanel);
     }
 
-    private void setupGrid() {
-        Grid grid = this.controller.getAbstraction().getGame().getGrid();
-        JPanel GridPanel = new JPanel();
-        GridPanel.setLayout(new GridLayout(grid.getRows(), grid.getColumns()));
-        
-        
-        for (int y = 0; y < grid.getColumns(); y++) {
-            for (int x = 0; x < grid.getRows(); x++) {
-                ImageIcon tileImage = new ImageIcon(getClass().getResource(grid.getTile(new Point(x, y)).getType().name()+".png"));
-                ImageIcon tileImageScaled = new ImageIcon(tileImage.getImage().getScaledInstance(75, 75, Image.SCALE_DEFAULT));
-                GridPanel.add(new JLabel(tileImageScaled));
-            }
-
-            this.gridPanel = GridPanel;
-        }
+    public void setupGrid() {
+        this.gridPanel = new JPanel();
+        this.gridPanel.add(this.controller.getGame().getGrid());
     }
 
     private void setupSpellsBook(){

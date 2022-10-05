@@ -1,8 +1,12 @@
+package Grid;
+
+import Grid.Jewel.Jewel;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Grid {
+public class GridModel {
 
     private final int rows, columns;
     private ArrayList<ArrayList<Tile>> gridTable;
@@ -11,14 +15,14 @@ public class Grid {
     public enum Type {RED_JEWEL, GREEN_JEWEL, BLUE_JEWEL, PURPLE_JEWEL, YELLOW_JEWEL}
 
     
-    public Grid(int rows, int columns) {
+    public GridModel(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
         this.gridTable = new ArrayList<>();
         createGridTable();
     }
 
-    // Crée une grille réalisable
+    // Crï¿½e une grille rï¿½alisable
     private void createGridTable() {
     	
     	// On initialise la grille a null
@@ -31,7 +35,7 @@ public class Grid {
     	//D'abord, on initialise 3 tiles aligables en 1 coup
     	create3FirstTiles();
     	
-    	//Puis on génère le reste en faisant gaffe de pas générer 3 tuiles alignées
+    	//Puis on gï¿½nï¿½re le reste en faisant gaffe de pas gï¿½nï¿½rer 3 tuiles alignï¿½es
     	for(int x=0; x<this.columns; x++) {
     		for(int y=0; y<this.rows; y++) {
     			if(this.getTile(new Point(x, y)) == null) {
@@ -187,7 +191,10 @@ public class Grid {
     public int getColumns() {return this.columns;}
     public int getRows() {return this.rows;}
 
-    private void switchTiles(Tile Tile1, Tile Tile2) {
+    public Tile getSelectedTile() {return selectedTile;}
+    public void setSelectedTile(Tile Tile) {this.selectedTile = Tile;}
+
+    public void switchTiles(Tile Tile1, Tile Tile2) {
         if(Tile1!=null && Tile2!=null) {
             Type temp = Tile1.getType();
             Tile1.setType(Tile2.getType());
