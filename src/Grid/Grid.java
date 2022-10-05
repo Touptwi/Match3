@@ -4,7 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Grid extends JComponent {
 
@@ -21,6 +23,7 @@ public class Grid extends JComponent {
     public GridView getView() {return this.view;}
     public ArrayList<ArrayList<Tile>> getGridTable() {return this.model.getGridTable();}
     public Tile getSelectedTile() {return this.model.getSelectedTile();}
+    public List<BufferedImage> getJewelImages() {return this.model.getJewelImages();}
 
     //Setup View
     @Override

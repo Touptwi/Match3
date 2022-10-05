@@ -2,8 +2,13 @@ package Grid;
 
 import Grid.Jewel.Jewel;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class GridModel {
@@ -13,6 +18,7 @@ public class GridModel {
 	private Dimension jewelSize;
 
 	private Tile selectedTile;
+	private List<BufferedImage> jewelImages = new ArrayList<>();
     
     public enum Direction {NORTH, EAST, SOUTH, WEST}
     public enum Type {RED_JEWEL, GREEN_JEWEL, BLUE_JEWEL, PURPLE_JEWEL, YELLOW_JEWEL}
@@ -22,8 +28,17 @@ public class GridModel {
         this.columns = columns;
         this.gridTable = new ArrayList<>();
 		this.jewelSize = new Dimension(75,75);
+		loadImages();
         createGridTable();
     }
+
+	private void loadImages() {
+		for(Type type : Type.values()) {
+			try {
+				this.jewelImages.add(ImageIO.read(new File("src/Grid/Jewel/" + type.name() + ".png")));
+			} catch (IOException e) {System.out.print("Can't load image of "+type.name());}
+		}
+	}
 
     // Cr�e une grille r�alisable
     private void createGridTable() {
@@ -202,6 +217,7 @@ public class GridModel {
 
     public Tile getSelectedTile() {return this.selectedTile;}
     public void setSelectedTile(Tile Tile) {this.selectedTile = Tile;}
+	public List<BufferedImage> getJewelImages() {return this.jewelImages;}
 
     public void switchTiles(Tile Tile1, Tile Tile2) {
         if(Tile1!=null && Tile2!=null) {

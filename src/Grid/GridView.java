@@ -1,9 +1,6 @@
 package Grid;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 public class GridView {
 
@@ -23,21 +20,22 @@ public class GridView {
     private void drawGrid() {
         for (int y = 0; y < this.grid.getModel().getColumns(); y++) {
             for (int x = 0; x < this.grid.getModel().getRows(); x++) {
-                String imagePath = "src/Grid/Jewel/" + this.grid.getModel().getTile(new Point(x, y)).getType().name() + ".png";
-                try {
-                    this.g.drawImage(ImageIO.read(new File(imagePath)), x*this.grid.getModel().getJewelSize().width, y*this.grid.getModel().getJewelSize().height,
-                            this.grid.getModel().getJewelSize().width, this.grid.getModel().getJewelSize().height, this.grid);
-                } catch (IOException e) {System.out.print("Can't load image at " + imagePath);}
+                drawTile(this.grid.getGridTable().get(x).get(y),
+                        new Point(x*this.grid.getModel().getJewelSize().width,
+                                y*this.grid.getModel().getJewelSize().height));
             }
         }
     }
 
     private void drawSelectedTile() {
-        String imagePath = "src/Grid/Jewel/" + this.grid.getModel().getSelectedTile().getType().name() + ".png";
-        try {
-            this.g.drawImage(ImageIO.read(new File(imagePath)), this.cursorPoint.x-this.grid.getModel().getJewelSize().width/2, this.cursorPoint.y-this.grid.getModel().getJewelSize().height/2,
-                    this.grid.getModel().getJewelSize().width, this.grid.getModel().getJewelSize().height, this.grid);
-        } catch (IOException e) {System.out.print("Can't load image at " + imagePath);}
+        drawTile(this.grid.getSelectedTile(),
+                new Point(this.cursorPoint.x-this.grid.getModel().getJewelSize().width/2,
+                        this.cursorPoint.y-this.grid.getModel().getJewelSize().height/2));
+    }
+
+    private void drawTile(Tile Tile, Point Position) {
+        this.g.drawImage(this.grid.getJewelImages().get(Tile.getType().ordinal()), Position.x, Position.y,
+                this.grid.getModel().getJewelSize().width, this.grid.getModel().getJewelSize().height, this.grid);
     }
 
     public void setCursorPoint(Point newCursorpoint) {this.cursorPoint = newCursorpoint;}
