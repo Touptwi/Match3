@@ -17,6 +17,8 @@ public abstract class Tile {
     }
     
     public Point getCoords() {return this.gridModel.getCoords(this);}
+    public int getX() {return getCoords().x; }
+    public int getY() {return getCoords().y; }
     public GridModel.Type getType() {return this.type;}
 
     public void setType(GridModel.Type newType) {this.type = newType;}

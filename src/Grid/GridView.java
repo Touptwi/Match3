@@ -43,4 +43,7 @@ public class GridView {
     }
 
     public void setCursorPoint(Point newCursorpoint) {this.cursorPoint = newCursorpoint;}
+    
+    
+
 }

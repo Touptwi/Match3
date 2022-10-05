@@ -41,29 +41,49 @@ public class Grid extends JComponent {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
-                System.out.print("Echange entre ("+e.getPoint().x/getModel().getJewelSize().width+", "+e.getPoint().y/getModel().getJewelSize().height+") et ");
-                getModel().setSelectedTile(getModel().getTile(new Point(e.getPoint().x/getModel().getJewelSize().width, e.getPoint().y/getModel().getJewelSize().height)));
+                
+                Tile tileUnderMouse = getTileUnderMouse(e);
+                System.out.print("Echange entre ("+ tileUnderMouse.getX() + ", "+ tileUnderMouse.getY() +") et ");
+                getModel().setSelectedTile(tileUnderMouse);
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                System.out.print("("+e.getPoint().x/getModel().getJewelSize().width+", "+e.getPoint().y/getModel().getJewelSize().height+")\n");
-                getModel().switchTiles(getSelectedTile(),
-                        getModel().getTile(new Point(e.getPoint().x/getModel().getJewelSize().width, e.getPoint().y/getModel().getJewelSize().height)));
+                
+                Tile tileUnderMouse = getTileUnderMouse(e);
+                System.out.print("("+ tileUnderMouse.getX() +", "+ tileUnderMouse.getY() +")\n");
+                getModel().switchTiles(getSelectedTile(), tileUnderMouse);
                 getView().setCursorPoint(null);
                 repaint();
             }
         });
         this.addMouseMotionListener(new MouseAdapter() {
-            @Override
+           
+        	
+        	@Override
             public void mouseDragged(MouseEvent e) {
                 super.mouseDragged(e);
                 getView().setCursorPoint(e.getPoint());
                 repaint();
             }
+        	
+        	@Override
+        	public void mouseMoved(MouseEvent e) {
+        	//	handleMouseMoved(e);
+        	}
             
         });
+    }
+    
+    public Tile getTileUnderMouse(MouseEvent e) {
+    	
+    	Point p = e.getPoint();
+    	Dimension jewelSize = getModel().getJewelSize();
+    	
+    	return getModel().getTile(new Point(p.x/jewelSize.width, 
+    			                            p.y/jewelSize.height));
+    			                
     }
     
 }
