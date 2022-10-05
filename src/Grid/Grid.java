@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 
 public class Grid extends JComponent {
@@ -52,6 +53,8 @@ public class Grid extends JComponent {
                         getModel().getTile(new Point(e.getPoint().x/75, e.getPoint().y/75)));
                 repaint();
             }
+            
         });
     }
+    
 }

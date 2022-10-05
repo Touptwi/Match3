@@ -13,6 +13,8 @@ public class GridView {
 
                 try {
                     g.drawImage(ImageIO.read(new File(imagePath)), x * 75, y * 75, 75, 75, grid);
+                    
+                    
                 } catch (IOException e) {
                     System.out.println("Can't load image at " + imagePath);
                 }
