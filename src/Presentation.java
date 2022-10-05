@@ -44,7 +44,8 @@ public class Presentation extends JFrame {
         Grid grid = this.controller.getAbstraction().getGame().getGrid();
         JPanel GridPanel = new JPanel();
         GridPanel.setLayout(new GridLayout(grid.getRows(), grid.getColumns()));
-
+        
+        
         for (int y = 0; y < grid.getColumns(); y++) {
             for (int x = 0; x < grid.getRows(); x++) {
                 ImageIcon tileImage = new ImageIcon(getClass().getResource(grid.getTile(new Point(x, y)).getType().name()+".png"));

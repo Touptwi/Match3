@@ -1,14 +1,16 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Grid {
 
     private final int rows, columns;
     private ArrayList<ArrayList<Tile>> gridTable;
+    
     public enum Direction {NORTH, EAST, SOUTH, WEST}
-
     public enum Type {RED_JEWEL, GREEN_JEWEL, BLUE_JEWEL, PURPLE_JEWEL, YELLOW_JEWEL}
 
+    
     public Grid(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
@@ -16,14 +18,104 @@ public class Grid {
         createGridTable();
     }
 
+    // Crée une grille réalisable
     private void createGridTable() {
+    	
+    	// On initialise la grille a null
         for (int i=0; i<this.columns; i++) {
             this.gridTable.add(new ArrayList<>(this.rows));
-            for (int j=0; j<this.rows; j++) {
-                this.gridTable.get(i).add(new Jewel(this));
-            }
+            for (int j=0; j<this.rows; j++)
+            	this.gridTable.get(i).add(null);
         }
+    	
+    	//D'abord, on initialise 3 tiles aligables en 1 coup
+    	create3FirstTiles();
+    	
+    	//Puis on génère le reste en faisant gaffe de pas générer 3 tuiles alignées
+    	for(int x=0; x<this.columns; x++) {
+    		for(int y=0; y<this.rows; y++) {
+    			if(this.getTile(new Point(x, y)) == null) {
+    				
+    				Type possibleColor = getPossibleColor(new Point(x,y));
+    				this.gridTable.get(x).set(y, new Jewel(this, possibleColor));
+    			}
+    		}
+    	}
+    	
+    	System.out.println("ai fini de crreer la grille !");
+    	
+
     }
+
+	private void create3FirstTiles() {
+		
+		boolean isFirstMatchVertical = new Random().nextBoolean();
+    	Point firstTile;
+    	
+    	//Type firstColor = Type.values()[new Random().nextInt(5)];
+    	Type firstColor = Type.BLUE_JEWEL;
+    	
+    	if (isFirstMatchVertical) {
+    		firstTile = new Point(new Random().nextInt(columns), 
+    							  new Random().nextInt(rows-3));
+    		this.gridTable.get(firstTile.x).set(firstTile.y, new Jewel(this, firstColor));
+    		this.gridTable.get(firstTile.x).set(firstTile.y+2, new Jewel(this, firstColor));
+    		
+    		if (firstTile.x == 0)
+    			this.gridTable.get(firstTile.x+1).set(firstTile.y+1, new Jewel(this, firstColor));
+    		else
+    			this.gridTable.get(firstTile.x-1).set(firstTile.y+1, new Jewel(this, firstColor));
+    		
+    		
+    	} else { 
+    		firstTile = new Point(new Random().nextInt(columns-3), 
+					              new Random().nextInt(rows));
+    		
+    		this.gridTable.get(firstTile.x).set(firstTile.y, new Jewel(this, firstColor));
+    		this.gridTable.get(firstTile.x+2).set(firstTile.y, new Jewel(this, firstColor));
+    		
+    		if (firstTile.y == 0)
+    			this.gridTable.get(firstTile.x+1).set(firstTile.y+1, new Jewel(this, firstColor));
+    		else
+    			this.gridTable.get(firstTile.x+1).set(firstTile.y-1, new Jewel(this, firstColor));
+    	
+    	}
+	}
+	
+	private Type getPossibleColor(Point coord) {
+		
+		ArrayList<Type> possibleColors = new ArrayList<Type>();
+		possibleColors.add(Type.BLUE_JEWEL);
+		possibleColors.add(Type.RED_JEWEL);
+		possibleColors.add(Type.GREEN_JEWEL);
+		possibleColors.add(Type.YELLOW_JEWEL);
+		possibleColors.add(Type.PURPLE_JEWEL);
+		
+		for(Direction d : Direction.values()) {
+			
+			System.out.print("Direction " + d.name() + " : ");
+			
+			Tile neighbor = this.getNeighbor(coord, d);
+			if (neighbor != null) {
+				Type neighborColor = neighbor.getType();
+				
+				System.out.println("voisin de couleur " + neighborColor.name());
+				
+				Tile neighbor2 = this.getNeighbor(coord, d);
+				if(neighbor2 != null) {
+					
+					System.out.println("2e voisin de couleur " + neighbor2.getType().name());
+					if(neighbor2.getType() == neighborColor)
+						possibleColors.remove(neighborColor);
+						System.out.println("les 2 couleurs sont les memes!");
+				}
+			}
+			
+		}
+		
+		Type returnColor = possibleColors.get(new Random().nextInt(possibleColors.size()));
+		return returnColor;
+	}
 
     public Point getCoords(Tile tile) {
         for (ArrayList<Tile> column : this.gridTable) {
@@ -54,7 +146,43 @@ public class Grid {
         neighbors.add(this.getTile(new Point(tileCoords.x-1, tileCoords.y)));
         return neighbors;
     }
-
+    
+    public Tile getNeighbor(Point coord, Direction d) {
+    	
+    	switch(d) {
+    	case NORTH :
+    		if (coord.y != 0)
+    			return this.getTile(new Point(coord.x, coord.y-1)); 
+    		else
+    			return null;
+    		
+		case EAST :
+    		if (coord.x != this.columns-1)
+    			return this.getTile(new Point(coord.x+1, coord.y)); 
+    		else
+    			return null;
+    		
+    		
+		case SOUTH:
+			if (coord.y != this.rows-1)
+    			return this.getTile(new Point(coord.x, coord.y+1)); 
+    		else
+    			return null;
+    		
+    		
+    	case WEST:
+    		if (coord.x != 0)
+    			return this.getTile(new Point(coord.x-1, coord.y)); 
+    		else
+    			return null;
+    	
+		default:
+			return null;
+    	}
+    	
+    }
+    
+   
     public ArrayList<ArrayList<Tile>> getGridTable() {return this.gridTable;}
     public int getColumns() {return this.columns;}
     public int getRows() {return this.rows;}
