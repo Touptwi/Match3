@@ -8,7 +8,7 @@ import java.util.Random;
 public class Jewel extends Tile {
 
     public Jewel(GridModel gridModel) {
-        super(gridModel, GridModel.Type.values()[new Random().nextInt(5)]);
+        super(gridModel, null);
     }
 
     public Jewel(GridModel gridModel, GridModel.Type type) {
