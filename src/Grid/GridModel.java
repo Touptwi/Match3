@@ -32,18 +32,18 @@ public class GridModel {
         for (int i=0; i<this.columns; i++) {
             this.gridTable.add(new ArrayList<>(this.rows));
             for (int j=0; j<this.rows; j++)
-            	this.gridTable.get(i).add(null);
+            	this.gridTable.get(i).add(new Jewel(this));
         }
     	
     	//D'abord, on initialise 3 tiles aligables en 1 coup
     	create3FirstTiles();
     	
-    	//Puis on g�n�re le reste en faisant gaffe de pas g�n�rer 3 tuiles align�es
+    	//Puis on genere le reste en faisant gaffe de pas generer 3 tuiles alignees
     	for(int x=0; x<this.columns; x++) {
     		for(int y=0; y<this.rows; y++) {
-    			if(this.getTile(new Point(x, y)) == null) {
+    			if(this.getTile(new Point(x, y)).getType() == null) {
     				
-    				Type possibleColor = getPossibleColor(new Point(x,y));
+    				Type possibleColor = getPossibleColor(this.getTile(new Point(x,y)));
     				this.gridTable.get(x).set(y, new Jewel(this, possibleColor));
     			}
     		}
@@ -89,7 +89,7 @@ public class GridModel {
     	}
 	}
 	
-	private Type getPossibleColor(Point coord) {
+	private Type getPossibleColor(Tile tile) {
 		
 		ArrayList<Type> possibleColors = new ArrayList<Type>();
 		possibleColors.add(Type.BLUE_JEWEL);
@@ -102,14 +102,14 @@ public class GridModel {
 			
 			System.out.print("Direction " + d.name() + " : ");
 			
-			Tile neighbor = this.getNeighbor(coord, d);
-			if (neighbor != null) {
+			Tile neighbor = this.getNeighbor(tile, d);
+			if (neighbor != null && neighbor.getType() != null) {
 				Type neighborColor = neighbor.getType();
 				
 				System.out.println("voisin de couleur " + neighborColor.name());
 				
-				Tile neighbor2 = this.getNeighbor(coord, d);
-				if(neighbor2 != null) {
+				Tile neighbor2 = this.getNeighbor(neighbor, d);
+				if(neighbor2 != null && neighbor2.getType() != null) {
 					
 					System.out.println("2e voisin de couleur " + neighbor2.getType().name());
 					if(neighbor2.getType() == neighborColor)
@@ -154,8 +154,9 @@ public class GridModel {
         return neighbors;
     }
     
-    public Tile getNeighbor(Point coord, Direction d) {
+    public Tile getNeighbor(Tile tile, Direction d) {
     	
+    	Point coord = tile.getCoords();
     	switch(d) {
     	case NORTH :
     		if (coord.y != 0)
@@ -187,6 +188,10 @@ public class GridModel {
 			return null;
     	}
     	
+    }
+    
+    public Tile getNeighbor(Point coord, Direction d) {
+    	return getNeighbor(this.getTile(coord), d);
     }
     
    
