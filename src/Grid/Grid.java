@@ -24,6 +24,8 @@ public class Grid extends JComponent {
     public ArrayList<ArrayList<Tile>> getGridTable() {return this.model.getGridTable();}
     public Tile getSelectedTile() {return this.model.getSelectedTile();}
     public List<BufferedImage> getJewelImages() {return this.model.getJewelImages();}
+    public void checkMatch3To(Tile tile) {this.model.checkMatch3To(tile);}
+    public void checkFlyingTiles() {this.model.checkFlyingTiles();}
 
     //Setup View
     @Override
@@ -58,8 +60,10 @@ public class Grid extends JComponent {
                 Tile tileUnderMouse = getTileUnderMouse(e);
 //                System.out.print("("+e.getPoint().x/getModel().getJewelSize().width+", "+e.getPoint().y/getModel().getJewelSize().height+")\n");
                 System.out.print("("+ tileUnderMouse.getX() +", "+ tileUnderMouse.getY() +")\n");
-                getModel().switchTiles(getSelectedTile(),
-                        getModel().getTile(new Point(e.getPoint().x/getModel().getJewelSize().width, e.getPoint().y/getModel().getJewelSize().height)));
+                Tile pointedTile = getModel().getTile(new Point(e.getPoint().x/getModel().getJewelSize().width, e.getPoint().y/getModel().getJewelSize().height));
+                getModel().switchTiles(getSelectedTile(), pointedTile);
+                checkMatch3To(getSelectedTile());
+                checkMatch3To(pointedTile);
                 getView().setCursorPoint(null);
                 repaint();
             }
