@@ -148,7 +148,7 @@ public class GridModel {
                 }
             }
         }
-        System.out.print("Grid.getCoords() error: Tile not find");
+        System.out.print("GridModel.getCoords() error: Tile not find");
         return new Point(-1, -1);
     }
 
@@ -156,7 +156,7 @@ public class GridModel {
         if(Coords.x>=0 && Coords.y>=0 && Coords.x<this.columns && Coords.y<this.rows) {
             return this.gridTable.get(Coords.x).get(Coords.y);
         }
-        System.out.print("Grid.getTile() error: Out of grid");
+        System.out.println("GridModel.getTile() error: Out of grid "+Coords);
         return null;
     }
 
