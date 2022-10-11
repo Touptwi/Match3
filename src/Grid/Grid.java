@@ -64,7 +64,7 @@ public class Grid extends JComponent {
                 getModel().switchTiles(getSelectedTile(), pointedTile);
                 checkMatch3To(getSelectedTile());
                 checkMatch3To(pointedTile);
-                getView().setCursorPoint(null);
+                getView().setCursorDraggingPoint(null);
                 repaint();
             }
         });
@@ -72,12 +72,14 @@ public class Grid extends JComponent {
             @Override
             public void mouseDragged(MouseEvent e) {
                 super.mouseDragged(e);
-                getView().setCursorPoint(e.getPoint());
+                getView().setCursorDraggingPoint(e.getPoint());
+                handleMouseMoved(e);
                 repaint();
             }
 
             @Override
             public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
                 handleMouseMoved(e);
                 repaint();
             }
@@ -97,7 +99,10 @@ public class Grid extends JComponent {
 
     private void handleMouseMoved(MouseEvent e) {
         Tile tileUnderMouse = getTileUnderMouse(e);
-        //TODO : faire que la tile sous la souris sois highlighted
+        if(tileUnderMouse!=null)
+            getView().setHoveredTilePosition(tileUnderMouse.getCoords());
+        else
+            getView().setHoveredTilePosition(null);
     }
 
 }
