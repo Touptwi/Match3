@@ -163,9 +163,9 @@ public class GridModel {
     public ArrayList<Tile> getNeighbors(Tile tile) {
         ArrayList<Tile> neighbors = new ArrayList<>();
         Point tileCoords = this.getCoords(tile);
-        neighbors.add(this.getTile(new Point(tileCoords.x, tileCoords.y+1)));
-        neighbors.add(this.getTile(new Point(tileCoords.x+1, tileCoords.y)));
         neighbors.add(this.getTile(new Point(tileCoords.x, tileCoords.y-1)));
+        neighbors.add(this.getTile(new Point(tileCoords.x+1, tileCoords.y)));
+        neighbors.add(this.getTile(new Point(tileCoords.x, tileCoords.y+1)));
         neighbors.add(this.getTile(new Point(tileCoords.x-1, tileCoords.y)));
         return neighbors;
     }
@@ -228,34 +228,28 @@ public class GridModel {
             Type temp = Tile1.getType();
             Tile1.setType(Tile2.getType());
             Tile2.setType(temp);
-			checkMatch3To(Tile1);
-			checkMatch3To(Tile2);
         }
     }
 
     public void moveTileTo(Tile Tile, Direction direction) {
-        if(direction.equals(Direction.NORTH)){
-            switchTiles(Tile, getNeighbors(Tile).get(0));
-        } else if (direction.equals(Direction.EAST)) {
-            switchTiles(Tile, getNeighbors(Tile).get(1));
-        } else if (direction.equals(Direction.SOUTH)) {
-            switchTiles(Tile, getNeighbors(Tile).get(2));
-        } else if (direction.equals(Direction.WEST)) {
-            switchTiles(Tile, getNeighbors(Tile).get(3));
-        }
+		switchTiles(Tile, getNeighbor(Tile, direction));
     }
 
 	public void checkMatch3To(Tile Tile) {
+		boolean Match3 = false;
 		for (ArrayList<Tile> Match : getLongMatchOf(Tile)) {
 			if(!Match.isEmpty()) {
-				System.out.print("\nFind Match with: "+"("+Tile.getCoords().x+","+Tile.getCoords().y+") ");
+//				System.out.print("\nFind Match with: "+"("+Tile.getCoords().x+","+Tile.getCoords().y+") ");
 				for (Tile tile : Match) {
-					System.out.print("("+tile.getCoords().x+","+tile.getCoords().y+") ");
+//					System.out.print("("+tile.getCoords().x+","+tile.getCoords().y+") ");
 					getTile(tile.getCoords()).setType(null);
 				}
 				getTile(Tile.getCoords()).setType(null);
+				Match3 = true;
 			}
 		}
+		if(Match3)
+			checkFlyingTiles();
 	}
 
 	private ArrayList<ArrayList<Tile>> getPossibleMatchsOf(Tile Tile) {
@@ -308,6 +302,23 @@ public class GridModel {
 			}
 		}
 		return Matchs;
+	}
+
+	public void checkFlyingTiles() {
+		boolean flyingTiles = false;
+		for(ArrayList<Tile> column : this.gridTable) {
+			for (int i = column.size() - 2; i >= 0; i--) {
+				if (column.get(i).getType() != null && getNeighbor(column.get(i), Direction.SOUTH).getType() == null) {
+					moveTileTo(column.get(i), Direction.SOUTH);
+					i = column.size() - 2;
+					flyingTiles = true;
+				}
+			}
+			if(flyingTiles)
+				for(Tile tile : column)
+					checkMatch3To(tile);
+			flyingTiles = false;
+		}
 	}
 }
 
