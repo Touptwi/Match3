@@ -308,17 +308,20 @@ public class GridModel {
 		boolean flyingTiles = false;
 		for(ArrayList<Tile> column : this.gridTable) {
 			for (int i = column.size() - 2; i >= 0; i--) {
+				if(column.get(i).getType()==null)
+					flyingTiles = true;
 				if (column.get(i).getType() != null && getNeighbor(column.get(i), Direction.SOUTH).getType() == null) {
 					moveTileTo(column.get(i), Direction.SOUTH);
 					i = column.size() - 2;
-					flyingTiles = true;
 				}
 			}
 			if(flyingTiles)
-				for(Tile tile : column)
+				for(Tile tile : column) {
+					if(tile.getType()==null)
+						tile.setType(Arrays.stream(Type.values()).toList().get(new Random().nextInt(Type.values().length)));
 					checkMatch3To(tile);
+				}
 			flyingTiles = false;
 		}
 	}
 }
-
