@@ -255,7 +255,7 @@ public class GridModel {
     public void moveTileTo(Tile Tile, Direction direction) {
 		Tile neighborTile = getNeighbor(Tile, direction);
 		switchTiles(Tile, neighborTile);
-		this.grid.getView().movingTileAnimation(neighborTile, getCoords(Tile), getCoords(neighborTile));
+		this.controller.getView().movingTileAnimation(neighborTile, getCoords(Tile), getCoords(neighborTile));
     }
 
 	public void checkMatch3To(Tile Tile) {

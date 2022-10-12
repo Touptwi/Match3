@@ -1,6 +1,6 @@
 package Grid;
 
-import Grid.Jewel.Jewel;
+import Grid.jewel.Jewel;
 
 import javax.swing.*;
 import java.awt.*;
