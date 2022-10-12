@@ -245,7 +245,7 @@ public class GridModel {
 	public List<BufferedImage> getJewelImages() {return this.jewelImages;}
 
     public void switchTiles(Tile Tile1, Tile Tile2) {
-        if(Tile1!=null && Tile2!=null) {
+        if(Tile1!=null && Tile2!=null && getNeighbors(Tile2).contains(Tile1)) {
             Type temp = Tile2.getType();
             Tile2.setType(Tile1.getType());
 			Tile1.setType(temp);
