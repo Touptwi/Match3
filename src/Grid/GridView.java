@@ -1,6 +1,10 @@
 package Grid;
 
+import Grid.jewel.Jewel;
+
+import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GridView {
 
@@ -10,6 +14,9 @@ public class GridView {
     private Point cursorDraggingPoint;
 
     private Point hoveredTilePosition;
+
+    private ArrayList<Tile> tempTiles = new ArrayList<>();
+    private ArrayList<Point> tempTilePositions = new ArrayList<>();
 
     public void paint(Graphics2D g, Grid grid) {
         this.g = g;
@@ -21,6 +28,8 @@ public class GridView {
         drawGrid();
         if (cursorDraggingPoint !=null)
             drawSelectedTile();
+        if(!tempTiles.isEmpty())
+            drawTempTiles();
     }
 
     private void drawGrid() {
@@ -55,4 +64,41 @@ public class GridView {
     public void setCursorDraggingPoint(Point newCursorPoint) {this.cursorDraggingPoint = newCursorPoint;}
     
     public void setHoveredTilePosition(Point newTilePosition) {this.hoveredTilePosition = newTilePosition;}
+
+    public boolean isTempTilesEmpty() {return this.tempTiles.isEmpty();}
+
+    public void movingTileAnimation(Tile Tile, Point oldPosition, Point newPosition) {
+        Dimension jewelSize = this.grid.getModel().getJewelSize();
+        Tile tempTile = new Jewel(grid.getModel(), Tile.getType());
+        this.tempTiles.add(tempTile);
+        Point tempTilePosition = new Point(oldPosition.x*jewelSize.width, oldPosition.y*jewelSize.height);
+        this.tempTilePositions.add(tempTilePosition);
+//        Tile.setType(null);
+        Timer timer = new Timer(100, null);
+        timer.addActionListener( e -> timerAction(tempTile, tempTilePosition, timer, Tile, newPosition, jewelSize));
+        timer.start();
+    }
+
+    private void timerAction(Tile tempTile, Point tempTilePosition, Timer timer, Tile tile, Point newPosition, Dimension jewelSize) {
+        if(tempTilePosition.x < newPosition.x*jewelSize.width)
+            tempTilePosition.x +=jewelSize.width/3;
+        else if(tempTilePosition.x > newPosition.x*jewelSize.width)
+            tempTilePosition.x -=jewelSize.width/3;
+        if(tempTilePosition.y < newPosition.y*jewelSize.height)
+            tempTilePosition.y +=jewelSize.height/3;
+        else if(tempTilePosition.y > newPosition.y*jewelSize.height)
+            tempTilePosition.y -=jewelSize.height/3;
+        this.grid.repaint();
+        if(tempTilePosition.x == newPosition.x*jewelSize.width && tempTilePosition.y == newPosition.y*jewelSize.height) {
+//            tile.setType(tempTile.getType());
+            timer.stop();
+            this.tempTiles.remove(tempTile);
+            this.tempTilePositions.remove(tempTilePosition);
+        }
+    }
+
+    private void drawTempTiles() {
+        for(Tile tile : this.tempTiles)
+            drawTile(tile, this.tempTilePositions.get(this.tempTiles.indexOf(tile)));
+    }
 }

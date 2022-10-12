@@ -15,13 +15,13 @@ public class Grid extends JComponent {
 
     private GridModel model;
     private GridView view;
-    
+
     private GameModel game;
 
     public Grid(int rows, int columns, GameModel game) {
         this.model = new GridModel(rows, columns, this);
         this.view = new GridView();
-        
+
         this.game = game;
         setupMouseListener();
     }
@@ -72,6 +72,7 @@ public class Grid extends JComponent {
                 getModel().switchTiles(getSelectedTile(), pointedTile);
                 checkMatch3To(getSelectedTile());
                 checkMatch3To(pointedTile);
+                getView().movingTileAnimation(getSelectedTile(), getModel().getCoords(pointedTile), getModel().getCoords(getSelectedTile()));
                 getView().setCursorDraggingPoint(null);
                 repaint();
             }

@@ -16,9 +16,9 @@ import java.util.Random;
 public class GridModel {
 
     private final int rows, columns;
-    
+
     private Grid controller;
-    
+
     private ArrayList<ArrayList<Tile>> gridTable;
 	private Dimension jewelSize;
 
@@ -32,7 +32,7 @@ public class GridModel {
         this.rows = rows;
         this.columns = columns;
         this.controller = controller;
-        
+
         this.gridTable = new ArrayList<>();
 		this.jewelSize = new Dimension(75,75);
 		loadImages();
@@ -45,7 +45,7 @@ public class GridModel {
 	private void loadImages() {
 		for(Type type : Type.values()) {
 			try {
-				this.jewelImages.add(ImageIO.read(new File("Grid\\Jewel\\" + type.name() + ".png")));
+				this.jewelImages.add(ImageIO.read(new File("src/Grid/Jewel/" + type.name() + ".png")));
 			} catch (IOException e) {System.out.print("Can't load image of "+type.name());}
 		}
 	}
@@ -78,7 +78,7 @@ public class GridModel {
     	
 
     }
-    
+
     /** fonction crate3FisrtTiles
      *  Initialise 3 tiles, dans une configuration ou elles sont alignables en 1 coup.
      *  Sert pour l'initialisation de la grille.
@@ -122,8 +122,8 @@ public class GridModel {
 	 *  Donne les couleurs qu'une tuile peut prendre sans qu'elle ne genere 3 tuiles alignees.
 	 *  A noter qu'une tile peut toujours prendre au moins une couleur, cette fonction ne renvoie donc jamais null.
 	 *  Sert pour l'initialisation de la grille.
-	 *  
-	 * @param tile : la tile a tester 
+	 *
+	 * @param tile : la tile a tester
 	 * @return une couleur que la tile peut prendre.
 	 */
 	private Type getPossibleColor(Tile tile) {
@@ -151,7 +151,7 @@ public class GridModel {
 					System.out.println("2e voisin de couleur " + neighbor2.getType().name());
 					if(neighbor2.getType() == neighborColor)
 						possibleColors.remove(neighborColor);
-						System.out.println("les 2 couleurs sont les memes!");
+					System.out.println("les 2 couleurs sont les memes!");
 				}
 			}
 			
@@ -244,17 +244,18 @@ public class GridModel {
     public void setSelectedTile(Tile Tile) {this.selectedTile = Tile;}
 	public List<BufferedImage> getJewelImages() {return this.jewelImages;}
 
-	
     public void switchTiles(Tile Tile1, Tile Tile2) {
         if(Tile1!=null && Tile2!=null) {
-            Type temp = Tile1.getType();
-            Tile1.setType(Tile2.getType());
-            Tile2.setType(temp);
+            Type temp = Tile2.getType();
+            Tile2.setType(Tile1.getType());
+			Tile1.setType(temp);
         }
     }
 
     public void moveTileTo(Tile Tile, Direction direction) {
-		switchTiles(Tile, getNeighbor(Tile, direction));
+		Tile neighborTile = getNeighbor(Tile, direction);
+		switchTiles(Tile, neighborTile);
+		this.controller.getView().movingTileAnimation(neighborTile, getCoords(Tile), getCoords(neighborTile));
     }
 
 	public void checkMatch3To(Tile Tile) {
@@ -267,13 +268,13 @@ public class GridModel {
 					getTile(tile.getCoords()).setType(null);
 				}
 				getTile(Tile.getCoords()).setType(null);
-				
+
 				controller.getGame().incrementScore(3);
-				
+
 				match3 = true;
 			}
 		}
-		
+
 		if(match3)
 			checkFlyingTiles();
 	}
@@ -330,8 +331,6 @@ public class GridModel {
 		return Matchs;
 	}
 
-	
-	
 	public void checkFlyingTiles() {
 		boolean flyingTiles = false;
 		for(ArrayList<Tile> column : this.gridTable) {
