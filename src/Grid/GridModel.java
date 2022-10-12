@@ -332,24 +332,29 @@ public class GridModel {
 	}
 
 	public void checkFlyingTiles() {
-		boolean flyingTiles = false;
-		for(ArrayList<Tile> column : this.gridTable) {
-			for (int i = column.size() - 2; i >= 0; i--) {
-				if(column.get(i).getType()==null)
-					flyingTiles = true;
-				if (column.get(i).getType() != null && getNeighbor(column.get(i), Direction.SOUTH).getType() == null) {
+		boolean isFlyingTile = false;
+		for(int i = this.rows - 2; i >= 0; i--) {
+			for(ArrayList<Tile> column : this.gridTable) {
+				if (column.get(i).getType()!=null && getNeighbor(column.get(i), Direction.SOUTH)!=null && getNeighbor(column.get(i), Direction.SOUTH).getType()==null) {
 					moveTileTo(column.get(i), Direction.SOUTH);
-					i = column.size() - 2;
 				}
 			}
-			if(flyingTiles)
-				for(Tile tile : column) {
-					if(tile.getType()==null)
-						tile.setType(Arrays.stream(Type.values()).toList().get(new Random().nextInt(Type.values().length)));
-
-					checkMatch3To(tile);
+			if(i==0)
+				for(ArrayList<Tile> column : this.gridTable) {
+					if(column.get(i).getType()==null) {
+						column.get(i).setType(Arrays.stream(Type.values()).toList().get(new Random().nextInt(Type.values().length)));
+						isFlyingTile = true;
+//						checkMatch3To(tile);
+					}
 				}
-			flyingTiles = false;
+			if(isFlyingTile)
+				checkFlyingTiles();
+			else
+				for(ArrayList<Tile> column : this.gridTable) {
+					for(Tile tile : column)
+						if(tile!=null && tile.getType()!=null)
+							checkMatch3To(tile);
+				}
 		}
 	}
 }
