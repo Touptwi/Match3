@@ -15,6 +15,7 @@ import java.util.Random;
 public class GridModel {
 
     private final int rows, columns;
+	private Grid grid;
     private ArrayList<ArrayList<Tile>> gridTable;
 	private Dimension jewelSize;
 
@@ -24,7 +25,8 @@ public class GridModel {
     public enum Direction {NORTH, EAST, SOUTH, WEST}
     public enum Type {RED_JEWEL, GREEN_JEWEL, BLUE_JEWEL, PURPLE_JEWEL, YELLOW_JEWEL}
     
-    public GridModel(int rows, int columns) {
+    public GridModel(int rows, int columns, Grid grid) {
+		this.grid = grid;
         this.rows = rows;
         this.columns = columns;
         this.gridTable = new ArrayList<>();

@@ -14,7 +14,7 @@ public class Grid extends JComponent {
     private GridView view;
 
     public Grid(int rows, int columns) {
-        this.model = new GridModel(rows, columns);
+        this.model = new GridModel(rows, columns, this);
         this.view = new GridView();
         setupMouseListener();
     }
