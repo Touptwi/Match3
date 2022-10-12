@@ -16,6 +16,9 @@ public class GameView extends JFrame {
         setupWindow();
     }
 
+    public JPanel getSpellsPanel() {return spellsPanel; }
+    public JLabel getScoreLabel() { return scoreLabel; }
+    
     private void setupWindow() {
         this.setTitle("Jewel Falls");
         this.setPreferredSize(new Dimension(1000, 800));
@@ -38,6 +41,7 @@ public class GameView extends JFrame {
 		scoreLabel = new JLabel();
         int score = this.controller.getGame().getScore();
         scoreLabel.setText("Score : " + score);
+        System.out.println("Point " + scoreLabel.getX() + ","+ scoreLabel.getY());
         
         
 	}
@@ -69,4 +73,25 @@ public class GameView extends JFrame {
 
         this.spellsPanel = SpellsPanel;
     }
+    
+    
+    public void updateScoreLabel() {
+    	int score = controller.getGame().getScore();
+    	scoreLabel.setText("Score : " + score);
+    }
+    
+    public void paint(Graphics g) {
+    	super.paint(g);
+    	// La grid se paint deja de son cote, pas besoin d'appeler GridView.paint
+    	
+    	g.setColor(Color.BLUE);
+    	System.out.println(scoreLabel.getText());
+    	Point absolutePosition = SwingUtilities.convertPoint(spellsPanel, 
+    														 new Point(scoreLabel.getX(), scoreLabel.getY()),
+    														 MainPanel);
+    	g.drawString(scoreLabel.getText(), absolutePosition.x , absolutePosition.y);
+    }
+    
+    
+    
 }
