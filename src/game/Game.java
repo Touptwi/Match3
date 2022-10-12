@@ -1,5 +1,10 @@
 package game;
-public class Game {
+
+import java.awt.Graphics;
+
+import javax.swing.JComponent;
+
+public class Game extends JComponent{
 
     private GameModel game;
     private GameView view;
@@ -13,6 +18,13 @@ public class Game {
     public GameView getView() {return this.view;}
     
     public void scoreChanged() {
+    	view.updateScoreLabel();
     	view.repaint();
+    }
+    
+    @Override
+    public void paintComponent(Graphics g) {
+    	super.paintComponent(g);
+    	view.paint(g);
     }
 }
