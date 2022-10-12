@@ -1,4 +1,4 @@
-package Grid.Jewel;
+package Grid.jewel;
 
 import Grid.GridModel;
 import Grid.Tile;
