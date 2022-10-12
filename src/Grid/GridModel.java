@@ -132,7 +132,7 @@ public class GridModel {
 					System.out.println("2e voisin de couleur " + neighbor2.getType().name());
 					if(neighbor2.getType() == neighborColor)
 						possibleColors.remove(neighborColor);
-						System.out.println("les 2 couleurs sont les memes!");
+					System.out.println("les 2 couleurs sont les memes!");
 				}
 			}
 			
@@ -227,9 +227,9 @@ public class GridModel {
 
     public void switchTiles(Tile Tile1, Tile Tile2) {
         if(Tile1!=null && Tile2!=null) {
-            Type temp = Tile1.getType();
-            Tile1.setType(Tile2.getType());
-            Tile2.setType(temp);
+            Type temp = Tile2.getType();
+            Tile2.setType(Tile1.getType());
+			Tile1.setType(temp);
         }
     }
 
