@@ -346,6 +346,7 @@ public class GridModel {
 				for(Tile tile : column) {
 					if(tile.getType()==null)
 						tile.setType(Arrays.stream(Type.values()).toList().get(new Random().nextInt(Type.values().length)));
+
 					checkMatch3To(tile);
 				}
 			flyingTiles = false;
