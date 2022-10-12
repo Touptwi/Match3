@@ -17,6 +17,7 @@ public class GridView {
 
     private ArrayList<Tile> tempTiles = new ArrayList<>();
     private ArrayList<Point> tempTilePositions = new ArrayList<>();
+    private ArrayList<Point> tempHidingPositions = new ArrayList<>();
 
     public void paint(Graphics2D g, Grid grid) {
         this.g = g;
@@ -73,8 +74,9 @@ public class GridView {
         this.tempTiles.add(tempTile);
         Point tempTilePosition = new Point(oldPosition.x*jewelSize.width, oldPosition.y*jewelSize.height);
         this.tempTilePositions.add(tempTilePosition);
+        this.tempHidingPositions.add(newPosition);
 //        Tile.setType(null);
-        Timer timer = new Timer(100, null);
+        Timer timer = new Timer(10, null);
         timer.addActionListener( e -> timerAction(tempTile, tempTilePosition, timer, Tile, newPosition, jewelSize));
         timer.start();
     }
@@ -94,11 +96,19 @@ public class GridView {
             timer.stop();
             this.tempTiles.remove(tempTile);
             this.tempTilePositions.remove(tempTilePosition);
+            this.tempHidingPositions.remove(newPosition);
         }
     }
 
     private void drawTempTiles() {
-        for(Tile tile : this.tempTiles)
+        for(Tile tile : this.tempTiles) {
+            Point tempHidingPosition = new Point(this.tempHidingPositions.get(this.tempTiles.indexOf(tile)).x*this.grid.getModel().getJewelSize().width,
+                    this.tempHidingPositions.get(this.tempTiles.indexOf(tile)).y*this.grid.getModel().getJewelSize().height);
+            this.g.setColor(Color.WHITE);
+            this.g.fillRect(tempHidingPosition.x, tempHidingPosition.y, this.grid.getModel().getJewelSize().width, this.grid.getModel().getJewelSize().height);
+        }
+        for(Tile tile : this.tempTiles) {
             drawTile(tile, this.tempTilePositions.get(this.tempTiles.indexOf(tile)));
+        }
     }
 }
