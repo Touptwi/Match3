@@ -1,8 +1,9 @@
 package Grid;
 
-import Grid.Jewel.Jewel;
-
 import javax.imageio.ImageIO;
+
+import Grid.jewel.Jewel;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -15,7 +16,9 @@ import java.util.Random;
 public class GridModel {
 
     private final int rows, columns;
-	private Grid grid;
+
+    private Grid controller;
+
     private ArrayList<ArrayList<Tile>> gridTable;
 	private Dimension jewelSize;
 
@@ -25,16 +28,20 @@ public class GridModel {
     public enum Direction {NORTH, EAST, SOUTH, WEST}
     public enum Type {RED_JEWEL, GREEN_JEWEL, BLUE_JEWEL, PURPLE_JEWEL, YELLOW_JEWEL}
     
-    public GridModel(int rows, int columns, Grid grid) {
-		this.grid = grid;
+    public GridModel(int rows, int columns, Grid controller) {
         this.rows = rows;
         this.columns = columns;
+        this.controller = controller;
+
         this.gridTable = new ArrayList<>();
 		this.jewelSize = new Dimension(75,75);
 		loadImages();
         createGridTable();
     }
 
+    /** fonction loadImage
+     *  Charge les images dans jewelImages.
+     */
 	private void loadImages() {
 		for(Type type : Type.values()) {
 			try {
@@ -43,7 +50,7 @@ public class GridModel {
 		}
 	}
 
-    // Cr�e une grille r�alisable
+    // Initialise une grille realisable, c'est a dire ou au moins un coup est jouable
     private void createGridTable() {
     	
     	// On initialise la grille a null
@@ -72,6 +79,10 @@ public class GridModel {
 
     }
 
+    /** fonction crate3FisrtTiles
+     *  Initialise 3 tiles, dans une configuration ou elles sont alignables en 1 coup.
+     *  Sert pour l'initialisation de la grille.
+     */
 	private void create3FirstTiles() {
 		
 		boolean isFirstMatchVertical = new Random().nextBoolean();
@@ -107,6 +118,14 @@ public class GridModel {
     	}
 	}
 	
+	/** fonction getPossibleColor
+	 *  Donne les couleurs qu'une tuile peut prendre sans qu'elle ne genere 3 tuiles alignees.
+	 *  A noter qu'une tile peut toujours prendre au moins une couleur, cette fonction ne renvoie donc jamais null.
+	 *  Sert pour l'initialisation de la grille.
+	 *
+	 * @param tile : la tile a tester
+	 * @return une couleur que la tile peut prendre.
+	 */
 	private Type getPossibleColor(Tile tile) {
 		
 		ArrayList<Type> possibleColors = new ArrayList<Type>();
@@ -240,7 +259,7 @@ public class GridModel {
     }
 
 	public void checkMatch3To(Tile Tile) {
-		boolean Match3 = false;
+		boolean match3 = false;
 		for (ArrayList<Tile> Match : getLongMatchOf(Tile)) {
 			if(!Match.isEmpty()) {
 //				System.out.print("\nFind Match with: "+"("+Tile.getCoords().x+","+Tile.getCoords().y+") ");
@@ -249,14 +268,18 @@ public class GridModel {
 					getTile(tile.getCoords()).setType(null);
 				}
 				getTile(Tile.getCoords()).setType(null);
-				Match3 = true;
+
+				controller.getGame().incrementScore(3);
+
+				match3 = true;
 			}
 		}
-		if(Match3)
+
+		if(match3)
 			checkFlyingTiles();
 	}
 
-	private ArrayList<ArrayList<Tile>> getPossibleMatchsOf(Tile Tile) {
+	private ArrayList<ArrayList<Tile>> get2NeighborsInAllDirections(Tile Tile) {
 		ArrayList<ArrayList<Tile>> possibleMatchs = new ArrayList<>();
 		ArrayList<Tile> NorthMatch = new ArrayList<>();
 		ArrayList<Tile> EastMatch = new ArrayList<>();
@@ -280,7 +303,7 @@ public class GridModel {
 	}
 
 	private ArrayList<ArrayList<Tile>> getMatchsOf(Tile Tile) {
-		ArrayList<ArrayList<Tile>> possibleMatchs = getPossibleMatchsOf(Tile);
+		ArrayList<ArrayList<Tile>> possibleMatchs = get2NeighborsInAllDirections(Tile);
 		for(int i=0 ; i< possibleMatchs.size(); i++) {
 			if(possibleMatchs.get(i).get(0)==null || possibleMatchs.get(i).get(0).getType()!=Tile.getType())
 				possibleMatchs.set(i, new ArrayList<>());

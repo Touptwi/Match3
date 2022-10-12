@@ -1,6 +1,9 @@
 package Grid;
 
 import javax.swing.*;
+
+import game.GameModel;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -13,14 +16,19 @@ public class Grid extends JComponent {
     private GridModel model;
     private GridView view;
 
-    public Grid(int rows, int columns) {
+    private GameModel game;
+
+    public Grid(int rows, int columns, GameModel game) {
         this.model = new GridModel(rows, columns, this);
         this.view = new GridView();
+
+        this.game = game;
         setupMouseListener();
     }
 
     public GridModel getModel() {return this.model;}
     public GridView getView() {return this.view;}
+    public GameModel getGame() {return this.game; }
     public ArrayList<ArrayList<Tile>> getGridTable() {return this.model.getGridTable();}
     public Tile getSelectedTile() {return this.model.getSelectedTile();}
     public List<BufferedImage> getJewelImages() {return this.model.getJewelImages();}
