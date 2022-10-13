@@ -138,21 +138,21 @@ public class GridModel {
 		
 		for(Direction d : Direction.values()) {
 			
-			System.out.print("Direction " + d.name() + " : ");
+//			System.out.print("Direction " + d.name() + " : ");
 			
 			Tile neighbor = this.getNeighbor(tile, d);
 			if (neighbor != null && neighbor.getType() != null) {
 				Type neighborColor = neighbor.getType();
 				
-				System.out.println("voisin de couleur " + neighborColor.name());
+//				System.out.println("voisin de couleur " + neighborColor.name());
 				
 				Tile neighbor2 = this.getNeighbor(neighbor, d);
 				if(neighbor2 != null && neighbor2.getType() != null) {
 					
-					System.out.println("2e voisin de couleur " + neighbor2.getType().name());
+//					System.out.println("2e voisin de couleur " + neighbor2.getType().name());
 					if(neighbor2.getType() == neighborColor)
 						possibleColors.remove(neighborColor);
-					System.out.println("les 2 couleurs sont les memes!");
+//					System.out.println("les 2 couleurs sont les memes!");
 				}
 			}
 			
