@@ -2,7 +2,6 @@ package game;
 import javax.swing.*;
 import java.awt.*;
 
-import java.io.File;
 import javax.sound.sampled.*;
 
 public class GameView extends JFrame {
