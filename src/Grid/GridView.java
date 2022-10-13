@@ -24,7 +24,7 @@ public class GridView {
     private BufferedImage background;
 
     public GridView() {
-        try {background = ImageIO.read(new File("Images\\WaterFall Background.jpg"));
+        try {background = ImageIO.read(ClassLoader.getSystemResource("Images/WaterFall Background.jpg"));
         } catch (IOException e) {e.fillInStackTrace();}
     }
 

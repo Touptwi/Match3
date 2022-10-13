@@ -46,8 +46,8 @@ public class GridModel {
 	private void loadImages() {
 		for(Type type : Type.values()) {
 			try {
-				this.jewelImages.add(ImageIO.read(new File("Images\\Jewels\\" + type.name() + ".png")));
-			} catch (IOException e) {System.out.print("Can't load image of "+type.name());}
+				this.jewelImages.add(ImageIO.read(ClassLoader.getSystemResource("Images/Jewels/" +type.name()+".png")));
+			} catch (IOException e) {System.out.println("Can't load image of "+type.name());}
 		}
 	}
 
@@ -357,10 +357,14 @@ public class GridModel {
 				for(ArrayList<Tile> column : this.gridTable) {
 					if(column.get(i).getType()==null) {
 						column.get(i).setType(Arrays.stream(Type.values()).toList().get(new Random().nextInt(Type.values().length)));
+						isFlyingTile = true;
 					}
 				}
-			if(isFlyingTile)
+			if(isFlyingTile) {
 				this.needCheckFlyingTiles = true;
+				if (this.controller.getView().isTempTilesEmpty())
+					goBackToModel();
+			}
 			else
 				this.needCheckMatch3 = true;
 		}

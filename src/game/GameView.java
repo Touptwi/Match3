@@ -20,7 +20,7 @@ public class GameView extends JFrame {
         this.controller = controller;
         setupWindow();
         try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Eric Skiff - A Night Of Dizzy Spells.wav"));
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(ClassLoader.getSystemResource("Eric Skiff - A Night Of Dizzy Spells.wav"));
             this.clip = AudioSystem.getClip();
             this.clip.open(audioInputStream);
             this.clip.loop(Clip.LOOP_CONTINUOUSLY);
