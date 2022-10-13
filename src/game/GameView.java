@@ -13,31 +13,31 @@ public class GameView extends JFrame {
     private JPanel spellsPanel;
     private JLabel scoreLabel;
 
-    private Clip clip;
-
     public GameView(Game controller) {
         this.controller = controller;
         setupWindow();
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(ClassLoader.getSystemResource("Eric Skiff - A Night Of Dizzy Spells.wav"));
-            this.clip = AudioSystem.getClip();
-            this.clip.open(audioInputStream);
-            this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
 
             //Change the music Volume
-            FloatControl gainControl = (FloatControl) this.clip.getControl(FloatControl.Type.MASTER_GAIN);
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(-25.0f);
 
-            this.clip.start();
+            clip.start();
             System.out.println("Let's play Music !");
-        } catch (Exception e) {System.out.println("Can't play Music");;}
+        } catch (Exception e) {System.out.println("Can't play Music");}
     }
 
     public JPanel getSpellsPanel() {return spellsPanel; }
     public JLabel getScoreLabel() { return scoreLabel; }
     
+
     private void setupWindow() {
-        this.setTitle("Jewel Falls");
+        this.setTitle("Jewels Falls");
+        this.setIconImage(new ImageIcon(ClassLoader.getSystemResource("Images/Jewels/Jewels Falls Icon.png")).getImage());
         this.setPreferredSize(new Dimension(1000, 800));
 
 
