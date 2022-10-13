@@ -2,6 +2,9 @@ package game;
 import javax.swing.*;
 import java.awt.*;
 
+import java.io.File;
+import javax.sound.sampled.*;
+
 public class GameView extends JFrame {
 
     private Game controller;
@@ -11,9 +14,24 @@ public class GameView extends JFrame {
     private JPanel spellsPanel;
     private JLabel scoreLabel;
 
+    private Clip clip;
+
     public GameView(Game controller) {
         this.controller = controller;
         setupWindow();
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Eric Skiff - A Night Of Dizzy Spells.wav"));
+            this.clip = AudioSystem.getClip();
+            this.clip.open(audioInputStream);
+            this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+            //Change the music Volume
+            FloatControl gainControl = (FloatControl) this.clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-25.0f);
+
+            this.clip.start();
+            System.out.println("Let's play Music !");
+        } catch (Exception e) {System.out.println("Can't play Music");;}
     }
 
     public JPanel getSpellsPanel() {return spellsPanel; }
