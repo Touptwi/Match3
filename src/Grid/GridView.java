@@ -4,7 +4,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -24,7 +23,7 @@ public class GridView {
     private BufferedImage background;
 
     public GridView() {
-        try {background = ImageIO.read(ClassLoader.getSystemResource("Images/WaterFall Background.jpg"));
+        try {this.background = ImageIO.read(ClassLoader.getSystemResource("Images/WaterFall Background.jpg"));
         } catch (IOException e) {e.fillInStackTrace();}
     }
 
@@ -34,12 +33,12 @@ public class GridView {
 //        this.g.setColor(Color.WHITE);
 //        this.g.fillRect(0,0, grid.getWidth(), grid.getHeight());
         this.g.drawImage(this.background, 0,0,this.grid);
-        if(hoveredTilePosition !=null)
+        if(this.hoveredTilePosition !=null)
             drawHoveredTile();
         drawGrid();
-        if (cursorDraggingPoint !=null)
+        if (this.cursorDraggingPoint !=null)
             drawSelectedTile();
-        if(!tempTiles.isEmpty())
+        if(!this.tempTiles.isEmpty())
             drawTempTiles();
     }
 
@@ -86,13 +85,13 @@ public class GridView {
         newPosition.move(newPosition.x*jewelSize.width, newPosition.y*jewelSize.height);
         this.tempTilePositions.add(tempTilePosition);
         this.tempHidingPositions.add(newPosition);
-        Timer timer = new Timer(10, null);
+        Timer timer = new Timer(50, null);
         Dimension jewelSizePart = new Dimension(jewelSize.width/3, jewelSize.height/3);
-        timer.addActionListener( e -> timerAction(tempTile, tempTilePosition, timer, Tile, newPosition, jewelSizePart));
+        timer.addActionListener( e -> timerAction(tempTile, tempTilePosition, timer, newPosition, jewelSizePart));
         timer.start();
     }
 
-    private void timerAction(Tile tempTile, Point tempTilePosition, Timer timer, Tile tile, Point newPosition, Dimension jewelSizePart) {
+    private void timerAction(Tile tempTile, Point tempTilePosition, Timer timer, Point newPosition, Dimension jewelSizePart) {
         if(tempTilePosition.x < newPosition.x)
             tempTilePosition.x +=jewelSizePart.width;
         else if(tempTilePosition.x > newPosition.x)
@@ -115,8 +114,9 @@ public class GridView {
     private void drawTempTiles() {
         for(Tile tile : this.tempTiles) {
             Point tempHidingPosition = this.tempHidingPositions.get(this.tempTiles.indexOf(tile));
-            this.g.setColor(Color.WHITE);
-            this.g.fillRect(tempHidingPosition.x, tempHidingPosition.y, this.grid.getModel().getJewelSize().width, this.grid.getModel().getJewelSize().height);
+            Dimension jewelSize = this.grid.getModel().getJewelSize();
+            BufferedImage tempSubImage = this.background.getSubimage(tempHidingPosition.x, tempHidingPosition.y, jewelSize.width, jewelSize.height);
+            this.g.drawImage(tempSubImage, tempHidingPosition.x, tempHidingPosition.y, this.grid);
         }
         for(Tile tile : this.tempTiles) {
             drawTile(tile, this.tempTilePositions.get(this.tempTiles.indexOf(tile)));
