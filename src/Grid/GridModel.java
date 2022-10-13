@@ -2,8 +2,6 @@ package Grid;
 
 import javax.imageio.ImageIO;
 
-import Grid.jewel.Jewel;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -45,7 +43,7 @@ public class GridModel {
 	private void loadImages() {
 		for(Type type : Type.values()) {
 			try {
-				this.jewelImages.add(ImageIO.read(new File("Grid\\Jewel\\" + type.name() + ".png")));
+				this.jewelImages.add(ImageIO.read(new File("Images\\Jewels\\" + type.name() + ".png")));
 			} catch (IOException e) {System.out.print("Can't load image of "+type.name());}
 		}
 	}

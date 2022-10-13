@@ -1,7 +1,5 @@
 package Grid;
 
-import Grid.jewel.Jewel;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +24,7 @@ public class GridView {
     private BufferedImage background;
 
     public GridView() {
-        try {background = ImageIO.read(new File("WaterFall Background.jpg"));
+        try {background = ImageIO.read(new File("Images\\WaterFall Background.jpg"));
         } catch (IOException e) {e.fillInStackTrace();}
     }
 
