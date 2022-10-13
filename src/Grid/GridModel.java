@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class GridModel {
 
@@ -331,7 +332,7 @@ public class GridModel {
 	private ArrayList<ArrayList<Tile>> getLongMatchOf(Tile Tile) {
 		ArrayList<ArrayList<Tile>> Matchs = getMatchsOf(Tile);
 		for(int i=0 ; i< Matchs.size(); i++) {
-			Direction direction = Arrays.stream(Direction.values()).toList().get(i);
+			Direction direction = Arrays.stream(Direction.values()).collect(Collectors.toList()).get(i);
 			if(!Matchs.get(i).isEmpty()) {
 				Tile nextNeighbor = getNeighbor(Matchs.get(i).get(Matchs.get(i).size()-1), direction);
 				while (nextNeighbor!=null && nextNeighbor.getType() == Tile.getType()) {
@@ -355,7 +356,7 @@ public class GridModel {
 			if(i==0)
 				for(ArrayList<Tile> column : this.gridTable) {
 					if(column.get(i).getType()==null) {
-						column.get(i).setType(Arrays.stream(Type.values()).toList().get(new Random().nextInt(Type.values().length)));
+						column.get(i).setType(Arrays.stream(Type.values()).collect(Collectors.toList()).get(new Random().nextInt(Type.values().length)));
 						isFlyingTile = true;
 					}
 				}
