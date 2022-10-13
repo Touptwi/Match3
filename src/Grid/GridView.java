@@ -83,37 +83,38 @@ public class GridView {
         Tile tempTile = new Jewel(grid.getModel(), Tile.getType());
         this.tempTiles.add(tempTile);
         Point tempTilePosition = new Point(oldPosition.x*jewelSize.width, oldPosition.y*jewelSize.height);
+        newPosition.move(newPosition.x*jewelSize.width, newPosition.y*jewelSize.height);
         this.tempTilePositions.add(tempTilePosition);
         this.tempHidingPositions.add(newPosition);
-//        Tile.setType(null);
         Timer timer = new Timer(10, null);
-        timer.addActionListener( e -> timerAction(tempTile, tempTilePosition, timer, Tile, newPosition, jewelSize));
+        Dimension jewelSizePart = new Dimension(jewelSize.width/3, jewelSize.height/3);
+        timer.addActionListener( e -> timerAction(tempTile, tempTilePosition, timer, Tile, newPosition, jewelSizePart));
         timer.start();
     }
 
-    private void timerAction(Tile tempTile, Point tempTilePosition, Timer timer, Tile tile, Point newPosition, Dimension jewelSize) {
-        if(tempTilePosition.x < newPosition.x*jewelSize.width)
-            tempTilePosition.x +=jewelSize.width/3;
-        else if(tempTilePosition.x > newPosition.x*jewelSize.width)
-            tempTilePosition.x -=jewelSize.width/3;
-        if(tempTilePosition.y < newPosition.y*jewelSize.height)
-            tempTilePosition.y +=jewelSize.height/3;
-        else if(tempTilePosition.y > newPosition.y*jewelSize.height)
-            tempTilePosition.y -=jewelSize.height/3;
+    private void timerAction(Tile tempTile, Point tempTilePosition, Timer timer, Tile tile, Point newPosition, Dimension jewelSizePart) {
+        if(tempTilePosition.x < newPosition.x)
+            tempTilePosition.x +=jewelSizePart.width;
+        else if(tempTilePosition.x > newPosition.x)
+            tempTilePosition.x -=jewelSizePart.width;
+        if(tempTilePosition.y < newPosition.y)
+            tempTilePosition.y +=jewelSizePart.height;
+        else if(tempTilePosition.y > newPosition.y)
+            tempTilePosition.y -=jewelSizePart.height;
         this.grid.repaint();
-        if(tempTilePosition.x == newPosition.x*jewelSize.width && tempTilePosition.y == newPosition.y*jewelSize.height) {
-//            tile.setType(tempTile.getType());
+        if(tempTilePosition.x == newPosition.x && tempTilePosition.y == newPosition.y) {
             timer.stop();
             this.tempTiles.remove(tempTile);
             this.tempTilePositions.remove(tempTilePosition);
             this.tempHidingPositions.remove(newPosition);
+            if(isTempTilesEmpty())
+                this.grid.getModel().goBackToModel();
         }
     }
 
     private void drawTempTiles() {
         for(Tile tile : this.tempTiles) {
-            Point tempHidingPosition = new Point(this.tempHidingPositions.get(this.tempTiles.indexOf(tile)).x*this.grid.getModel().getJewelSize().width,
-                    this.tempHidingPositions.get(this.tempTiles.indexOf(tile)).y*this.grid.getModel().getJewelSize().height);
+            Point tempHidingPosition = this.tempHidingPositions.get(this.tempTiles.indexOf(tile));
             this.g.setColor(Color.WHITE);
             this.g.fillRect(tempHidingPosition.x, tempHidingPosition.y, this.grid.getModel().getJewelSize().width, this.grid.getModel().getJewelSize().height);
         }

@@ -22,6 +22,9 @@ public class GridModel {
 
 	private Tile selectedTile;
 	private List<BufferedImage> jewelImages = new ArrayList<>();
+
+	private boolean needCheckMatch3;
+	private boolean needCheckFlyingTiles;
     
     public enum Direction {NORTH, EAST, SOUTH, WEST}
     public enum Type {RED_JEWEL, GREEN_JEWEL, BLUE_JEWEL, PURPLE_JEWEL, YELLOW_JEWEL}
@@ -256,6 +259,14 @@ public class GridModel {
 		this.controller.getView().movingTileAnimation(neighborTile, getCoords(Tile), getCoords(neighborTile));
     }
 
+	private void checkMatch3ToAll() {
+		for(ArrayList<Tile> column : this.gridTable) {
+			for(Tile tile : column)
+				if(tile!=null && tile.getType()!=null)
+					checkMatch3To(tile);
+		}
+	}
+
 	public void checkMatch3To(Tile Tile) {
 		boolean match3 = false;
 		for (ArrayList<Tile> Match : getLongMatchOf(Tile)) {
@@ -267,14 +278,18 @@ public class GridModel {
 				}
 				getTile(Tile.getCoords()).setType(null);
 
-				controller.getGame().incrementScore(3);
+				this.controller.getGame().incrementScore(Match.size());
 
 				match3 = true;
 			}
 		}
 
-		if(match3)
-			checkFlyingTiles();
+		if(match3) {
+			this.controller.getGame().incrementScore(1);
+			this.needCheckFlyingTiles = true;
+			if (this.controller.getView().isTempTilesEmpty())
+				goBackToModel();
+		}
 	}
 
 	private ArrayList<ArrayList<Tile>> get2NeighborsInAllDirections(Tile Tile) {
@@ -335,24 +350,30 @@ public class GridModel {
 			for(ArrayList<Tile> column : this.gridTable) {
 				if (column.get(i).getType()!=null && getNeighbor(column.get(i), Direction.SOUTH)!=null && getNeighbor(column.get(i), Direction.SOUTH).getType()==null) {
 					moveTileTo(column.get(i), Direction.SOUTH);
+					isFlyingTile = true;
 				}
 			}
 			if(i==0)
 				for(ArrayList<Tile> column : this.gridTable) {
 					if(column.get(i).getType()==null) {
 						column.get(i).setType(Arrays.stream(Type.values()).toList().get(new Random().nextInt(Type.values().length)));
-						isFlyingTile = true;
-//						checkMatch3To(tile);
 					}
 				}
 			if(isFlyingTile)
-				checkFlyingTiles();
+				this.needCheckFlyingTiles = true;
 			else
-				for(ArrayList<Tile> column : this.gridTable) {
-					for(Tile tile : column)
-						if(tile!=null && tile.getType()!=null)
-							checkMatch3To(tile);
-				}
+				this.needCheckMatch3 = true;
+		}
+	}
+
+	public void goBackToModel() {
+		if(needCheckFlyingTiles) {
+			this.needCheckFlyingTiles = false;
+			checkFlyingTiles();
+		}
+		if(this.needCheckMatch3) {
+			this.needCheckMatch3 = false;
+			checkMatch3ToAll();
 		}
 	}
 }
