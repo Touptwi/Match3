@@ -72,7 +72,7 @@ public class Grid extends JComponent {
                 getModel().switchTiles(getSelectedTile(), pointedTile);
                 checkMatch3To(getSelectedTile());
                 checkMatch3To(pointedTile);
-                getView().movingTileAnimation(getSelectedTile(), getModel().getCoords(pointedTile), getModel().getCoords(getSelectedTile()));
+//                getView().movingTileAnimation(getSelectedTile(), getModel().getCoords(pointedTile), getModel().getCoords(getSelectedTile()));
                 getView().setCursorDraggingPoint(null);
                 repaint();
             }

@@ -2,8 +2,12 @@ package Grid;
 
 import Grid.jewel.Jewel;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GridView {
@@ -19,11 +23,19 @@ public class GridView {
     private ArrayList<Point> tempTilePositions = new ArrayList<>();
     private ArrayList<Point> tempHidingPositions = new ArrayList<>();
 
+    private BufferedImage background;
+
+    public GridView() {
+        try {background = ImageIO.read(new File("WaterFall Background.jpg"));
+        } catch (IOException e) {e.fillInStackTrace();}
+    }
+
     public void paint(Graphics2D g, Grid grid) {
         this.g = g;
         this.grid = grid;
-        this.g.setColor(Color.WHITE);
-        this.g.fillRect(0,0, grid.getWidth(), grid.getHeight());
+//        this.g.setColor(Color.WHITE);
+//        this.g.fillRect(0,0, grid.getWidth(), grid.getHeight());
+        this.g.drawImage(this.background, 0,0,this.grid);
         if(hoveredTilePosition !=null)
             drawHoveredTile();
         drawGrid();
@@ -50,7 +62,7 @@ public class GridView {
     }
 
     private void drawHoveredTile() {
-        this.g.setColor(Color.LIGHT_GRAY);
+        this.g.setColor(new Color(0,0,0,133));
         this.g.fillRect(this.hoveredTilePosition.x*this.grid.getModel().getJewelSize().width,
                         this.hoveredTilePosition.y*this.grid.getModel().getJewelSize().height,
                     this.grid.getModel().getJewelSize().width, this.grid.getModel().getJewelSize().height);
