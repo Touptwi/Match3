@@ -39,7 +39,8 @@ public class GameView extends JFrame {
         this.setTitle("Jewels Falls");
         this.setIconImage(new ImageIcon(ClassLoader.getSystemResource("Images/Jewels/Jewels Falls Icon.png")).getImage());
         this.setPreferredSize(new Dimension(1000, 800));
-
+        this.setLocationRelativeTo(null);
+        this.setLocation(this.getX()-500, this.getY()-400);
 
         setupGrid();
         setupSpellsBook();
