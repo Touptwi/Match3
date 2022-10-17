@@ -45,7 +45,15 @@ public class Menu extends JFrame {
 
         mainPanel.add(Box.createRigidArea(new Dimension(0,50)));
 
-        //TODO: add volume manager
+        JLabel volumeFeedback = new JLabel("Music: 50 %");
+        volumeFeedback.setOpaque(true);
+        volumeFeedback.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(volumeFeedback);
+
+        JSlider volumeSlider = new JSlider(0);
+        volumeSlider.setAlignmentX(Component.CENTER_ALIGNMENT);
+        volumeSlider.addChangeListener(e -> volumeFeedback.setText("Music: "+volumeSlider.getValue()+" %"));
+        mainPanel.add(volumeSlider);
 
         mainPanel.add(Box.createRigidArea(new Dimension(0,50)));
 
