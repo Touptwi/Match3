@@ -46,7 +46,9 @@ public class GridModel {
 	private void loadImages() {
 		for(Type type : Type.values()) {
 			try {
-				this.jewelImages.add(ImageIO.read(new File("Images\\Jewels\\" + type.name() + ".png")));
+				
+				String parentPath = new File(System.getProperty("user.dir")).getParent();
+				this.jewelImages.add(ImageIO.read(new File(parentPath + "\\Images\\Jewels\\" + type.name() + ".png")));
 			} catch (IOException e) {System.out.print("Can't load image of "+type.name());}
 		}
 	}

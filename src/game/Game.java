@@ -4,18 +4,22 @@ import java.awt.Graphics;
 
 import javax.swing.JComponent;
 
+import spellManager.SpellManager;
+
 public class Game extends JComponent{
 
-    private GameModel game;
+    private GameModel model;
     private GameView view;
 
     public Game() {
-        this.game = new GameModel(this);
+        this.model = new GameModel(this);
         this.view = new GameView(this);
     }
 
-    public GameModel getGame() {return this.game;}
+    public GameModel getGame() {return this.model;}
     public GameView getView() {return this.view;}
+    
+    public SpellManager getSpellManager() { return this.model.getSpellManager(); }
     
     public void scoreChanged() {
     	view.updateScoreLabel();

@@ -1,12 +1,14 @@
 package game;
 import Grid.Grid;
 import SpellsBook.SpellsBook;
+import spellManager.SpellManager;
 
 public class GameModel {
 	
     private Grid grid;
+    private SpellManager spellManager;
+    
     private int timer;
-    private SpellsBook spellsBook;
     private int score;
     
     private Game controller;
@@ -16,7 +18,7 @@ public class GameModel {
     	
     	score = 0;
         setupGrid(10,10);
-        setupSpellsBook();
+        setupSpellManager();
         startTimer();
     }
 
@@ -24,8 +26,8 @@ public class GameModel {
         this.grid = new Grid(rows, columns, this);
     }
 
-    private void setupSpellsBook() {
-        this.spellsBook = new SpellsBook();
+    private void setupSpellManager() {
+        this.spellManager = new SpellManager(this.controller);
     }
 
     private void startTimer() {
@@ -33,10 +35,9 @@ public class GameModel {
     }
 
     public Grid getGrid() {return this.grid;}
-
+    public SpellManager getSpellManager() {return this.spellManager; }
     public int getTimer() {return this.timer;}
 
-    public SpellsBook getSpellsBook() {return this.spellsBook;}
     
     public int getScore() { return this.score; }
     public void setScore(int score) { this.score = score; }

@@ -25,8 +25,7 @@ public class GameView extends JFrame {
 
 
         setupGrid();
-        setupSpellsBook();
-        setupScorePanel();
+        setupSpellsPanel();
         
         setupMainPanel();
         
@@ -66,12 +65,15 @@ public class GameView extends JFrame {
         this.gridPanel.add(this.controller.getGame().getGrid());
     }
 
-    private void setupSpellsBook(){
-        JPanel SpellsPanel = new JPanel();
+    private void setupSpellsPanel(){
+        this.spellsPanel = new JPanel();
         
-        //TODO
+        this.setupScorePanel();
+        
+        spellsPanel.add(scoreLabel, BorderLayout.NORTH);
+        spellsPanel.add(this.controller.getSpellManager(), BorderLayout.CENTER);
 
-        this.spellsPanel = SpellsPanel;
+        
     }
     
     
@@ -80,18 +82,21 @@ public class GameView extends JFrame {
     	scoreLabel.setText("Score : " + score);
     }
     
+  
+    /**
     public void paint(Graphics g) {
     	super.paint(g);
     	// La grid se paint deja de son cote, pas besoin d'appeler GridView.paint
     	
-    	g.setColor(Color.BLUE);
+    /*	g.setColor(Color.BLUE);
     	System.out.println(scoreLabel.getText());
     	Point absolutePosition = SwingUtilities.convertPoint(spellsPanel, 
     														 new Point(scoreLabel.getX(), scoreLabel.getY()),
     														 MainPanel);
-    	g.drawString(scoreLabel.getText(), absolutePosition.x , absolutePosition.y);
+    	//g.drawString(scoreLabel.getText(), absolutePosition.x , absolutePosition.y); 
     }
     
+	**/
     
     
 }
