@@ -55,7 +55,7 @@ public class Grid extends JComponent {
                 super.mousePressed(e);
 
                 Tile tileUnderMouse = getTileUnderMouse(e);
-                System.out.print("Echange entre ("+ tileUnderMouse.getX() + ", "+ tileUnderMouse.getY() +") et ");
+//                System.out.print("Echange entre ("+ tileUnderMouse.getX() + ", "+ tileUnderMouse.getY() +") et ");
 //                System.out.print("Echange entre ("+e.getPoint().x/getModel().getJewelSize().width+", "+e.getPoint().y/getModel().getJewelSize().height+") et ");
                 getModel().setSelectedTile(getModel().getTile(new Point(e.getPoint().x/getModel().getJewelSize().width, e.getPoint().y/getModel().getJewelSize().height)));
 

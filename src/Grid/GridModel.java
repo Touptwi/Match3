@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class GridModel {
 
@@ -46,10 +47,12 @@ public class GridModel {
 	private void loadImages() {
 		for(Type type : Type.values()) {
 			try {
+
 				
 				String parentPath = new File(System.getProperty("user.dir")).getParent();
 				this.jewelImages.add(ImageIO.read(new File(parentPath + "\\Images\\Jewels\\" + type.name() + ".png")));
 			} catch (IOException e) {System.out.print("Can't load image of "+type.name());}
+
 		}
 	}
 
@@ -140,21 +143,21 @@ public class GridModel {
 		
 		for(Direction d : Direction.values()) {
 			
-			System.out.print("Direction " + d.name() + " : ");
+//			System.out.print("Direction " + d.name() + " : ");
 			
 			Tile neighbor = this.getNeighbor(tile, d);
 			if (neighbor != null && neighbor.getType() != null) {
 				Type neighborColor = neighbor.getType();
 				
-				System.out.println("voisin de couleur " + neighborColor.name());
+//				System.out.println("voisin de couleur " + neighborColor.name());
 				
 				Tile neighbor2 = this.getNeighbor(neighbor, d);
 				if(neighbor2 != null && neighbor2.getType() != null) {
 					
-					System.out.println("2e voisin de couleur " + neighbor2.getType().name());
+//					System.out.println("2e voisin de couleur " + neighbor2.getType().name());
 					if(neighbor2.getType() == neighborColor)
 						possibleColors.remove(neighborColor);
-					System.out.println("les 2 couleurs sont les memes!");
+//					System.out.println("les 2 couleurs sont les memes!");
 				}
 			}
 			
@@ -334,7 +337,7 @@ public class GridModel {
 	private ArrayList<ArrayList<Tile>> getLongMatchOf(Tile Tile) {
 		ArrayList<ArrayList<Tile>> Matchs = getMatchsOf(Tile);
 		for(int i=0 ; i< Matchs.size(); i++) {
-			Direction direction = Arrays.stream(Direction.values()).toList().get(i);
+			Direction direction = Arrays.stream(Direction.values()).collect(Collectors.toList()).get(i);
 			if(!Matchs.get(i).isEmpty()) {
 				Tile nextNeighbor = getNeighbor(Matchs.get(i).get(Matchs.get(i).size()-1), direction);
 				while (nextNeighbor!=null && nextNeighbor.getType() == Tile.getType()) {
@@ -348,24 +351,29 @@ public class GridModel {
 
 	public void checkFlyingTiles() {
 		boolean isFlyingTile = false;
-		for(int i = this.rows - 2; i >= 0; i--) {
-			for(ArrayList<Tile> column : this.gridTable) {
-				if (column.get(i).getType()!=null && getNeighbor(column.get(i), Direction.SOUTH)!=null && getNeighbor(column.get(i), Direction.SOUTH).getType()==null) {
+
+		for (ArrayList<Tile> column : this.gridTable) {
+			if (column.get(0).getType() == null) {
+				column.get(0).setType(Arrays.stream(Type.values()).collect(Collectors.toList()).get(new Random().nextInt(Type.values().length)));
+			}
+		}
+
+		for (int i = this.rows - 2; i >= 0; i--) {
+			for (ArrayList<Tile> column : this.gridTable) {
+				if (column.get(i).getType() != null && getNeighbor(column.get(i), Direction.SOUTH) != null && getNeighbor(column.get(i), Direction.SOUTH).getType() == null) {
 					moveTileTo(column.get(i), Direction.SOUTH);
 					isFlyingTile = true;
 				}
 			}
-			if(i==0)
-				for(ArrayList<Tile> column : this.gridTable) {
-					if(column.get(i).getType()==null) {
-						column.get(i).setType(Arrays.stream(Type.values()).toList().get(new Random().nextInt(Type.values().length)));
-					}
-				}
-			if(isFlyingTile)
-				this.needCheckFlyingTiles = true;
-			else
-				this.needCheckMatch3 = true;
 		}
+
+		if (isFlyingTile)
+			this.needCheckFlyingTiles = true;
+		else
+			this.needCheckMatch3 = true;
+
+		if (this.controller.getView().isTempTilesEmpty())
+			goBackToModel();
 	}
 
 	public void goBackToModel() {
@@ -373,7 +381,7 @@ public class GridModel {
 			this.needCheckFlyingTiles = false;
 			checkFlyingTiles();
 		}
-		if(this.needCheckMatch3) {
+		else if(this.needCheckMatch3) {
 			this.needCheckMatch3 = false;
 			checkMatch3ToAll();
 		}
