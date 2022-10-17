@@ -50,7 +50,7 @@ public class GridModel {
 
 				
 				String parentPath = new File(System.getProperty("user.dir")).getParent();
-				this.jewelImages.add(ImageIO.read(new File(parentPath + "\\Images\\Jewels\\" + type.name() + ".png")));
+				this.jewelImages.add(ImageIO.read(ClassLoader.getSystemResource("\\Images\\Jewels\\" + type.name() + ".png")));
 			} catch (IOException e) {System.out.print("Can't load image of "+type.name());}
 
 		}

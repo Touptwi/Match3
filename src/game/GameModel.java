@@ -13,10 +13,20 @@ public class GameModel {
     
     private Game controller;
 
-    public GameModel(Game controller) {
+    public GameModel(Game controller, int timer) {
     	this.controller = controller;
+    	this.timer = timer;
     	
     	score = 0;
+        setupGrid(10,10);
+        setupSpellManager();
+        startTimer();
+    }
+    public GameModel(Game controller) {
+        this.controller = controller;
+        this.timer = -1;
+
+        score = 0;
         setupGrid(10,10);
         setupSpellManager();
         startTimer();
