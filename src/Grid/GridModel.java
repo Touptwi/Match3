@@ -273,6 +273,7 @@ public class GridModel {
 	}
 
 	public void checkMatch3To(Tile Tile) {
+		Type matchColor = Tile.getType();
 		boolean match3 = false;
 		for (ArrayList<Tile> Match : getLongMatchOf(Tile)) {
 			if(!Match.isEmpty()) {
@@ -281,9 +282,13 @@ public class GridModel {
 //					System.out.print("("+tile.getCoords().x+","+tile.getCoords().y+") ");
 					getTile(tile.getCoords()).setType(null);
 				}
+				
+				
 				getTile(Tile.getCoords()).setType(null);
 
 				this.controller.getGame().incrementScore(Match.size());
+				
+				this.controller.getGame().notifyMatch(Match.size(), matchColor);
 
 				match3 = true;
 			}
@@ -348,7 +353,26 @@ public class GridModel {
 		}
 		return Matchs;
 	}
+	
 
+	/*
+	// Donne la couleur des tuiles alignees.
+	private Type getMatchColor(ArrayList<Tile> line) {
+			if ( !(line == null)) { 
+				System.out.println("line n'est pas null");
+				for (Tile tile : line) { 
+					if ( !(tile.getType() == null)) {
+						return tile.getType();
+					}
+				}
+			}
+			
+			
+		System.out.println("getMatchColor error : le Match entre en parametre est null");
+		return null;
+	} */
+
+	
 	public void checkFlyingTiles() {
 		boolean isFlyingTile = false;
 

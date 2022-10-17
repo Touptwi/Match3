@@ -1,7 +1,5 @@
 package spellManager;
 
-import java.awt.Color;
-
 import Grid.GridModel.Type;
 
 public class Spell {
@@ -37,6 +35,7 @@ public class Spell {
 	}
 	
 	public int getCurrentCharge() { return currentCharge; }
+	public int getMaximumCharge() {return chargeNeeded;}
 	
 	public void setCurrentCharge(int newCharge) { 
 		this.currentCharge = newCharge;
@@ -49,6 +48,10 @@ public class Spell {
 		
 		if(this.currentCharge > this.chargeNeeded)
 			this.currentCharge = this.chargeNeeded;
+	}
+
+	public float getRatio() {
+		return (float)currentCharge/(float)chargeNeeded;
 	}
 	
 }

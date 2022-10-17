@@ -1,10 +1,11 @@
 package spellManager;
 
-import java.awt.Color;
 
 import Grid.GridModel.Type;
 
 public class SpellManagerModel {
+	
+	private SpellManager controller;
 	
 	private Spell blueSpell;
 	private Spell redSpell;
@@ -12,7 +13,9 @@ public class SpellManagerModel {
 	private Spell greenSpell;
 	private Spell purpleSpell;
 	
-	public SpellManagerModel() {
+	public SpellManagerModel(SpellManager controller) {
+		
+		this.controller = controller;
 		
 		blueSpell = new Spell(50, Type.BLUE_JEWEL);
 		redSpell = new Spell(50, Type.RED_JEWEL);
@@ -21,6 +24,12 @@ public class SpellManagerModel {
 		purpleSpell = new Spell(50, Type.PURPLE_JEWEL);
 		
 	}
+	
+	public Spell getBlueSpell() {return blueSpell;}
+	public Spell getRedSpell() {return redSpell;}
+	public Spell getYellowSpell() {return yellowSpell;}
+	public Spell getGreenSpell() {return greenSpell;}
+	public Spell getPurpleSpell() {return purpleSpell;}
 	
 	private Spell getSpellByColor(Type color) {
 		switch(color) {
@@ -45,5 +54,8 @@ public class SpellManagerModel {
 	public void incrementChargeOfSpell(int increment, Type color) {
 		Spell spell = getSpellByColor(color);
 		spell.incrementCharge(increment);
+		
+		
+		
 	}
 }

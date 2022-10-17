@@ -1,6 +1,6 @@
 package game;
 import Grid.Grid;
-import SpellsBook.SpellsBook;
+import Grid.GridModel.Type;
 import spellManager.SpellManager;
 
 public class GameModel {
@@ -45,4 +45,11 @@ public class GameModel {
     	this.score += increment;
     	controller.scoreChanged();
     }
+
+	public void notifyMatch(int increment, Type matchColor) {
+		incrementScore(increment);
+		spellManager.incrementChargeOfSpell(increment, matchColor);
+		
+		controller.updateSpellManager();
+	}
 }

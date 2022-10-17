@@ -37,7 +37,7 @@ public class GameView extends JFrame {
 
     private void setupWindow() {
         this.setTitle("Jewels Falls");
-        this.setIconImage(new ImageIcon(ClassLoader.getSystemResource("Images/Jewels/Jewels Falls Icon.png")).getImage());
+    //    this.setIconImage(new ImageIcon(ClassLoader.getSystemResource("Images/Jewels/Jewels Falls Icon.png")).getImage());
         this.setPreferredSize(new Dimension(1000, 800));
         this.setLocationRelativeTo(null);
         this.setLocation(this.getX()-500, this.getY()-400);
@@ -89,7 +89,7 @@ public class GameView extends JFrame {
         this.setupScorePanel();
         
         spellsPanel.add(scoreLabel, BorderLayout.NORTH);
-        spellsPanel.add(this.controller.getSpellManager(), BorderLayout.CENTER);
+        spellsPanel.add(this.controller.getSpellManager().getView().getPanel(), BorderLayout.CENTER);
 
         
     }
@@ -101,12 +101,13 @@ public class GameView extends JFrame {
     }
     
   
-    /**
+    
     public void paint(Graphics g) {
     	super.paint(g);
+    	
     	// La grid se paint deja de son cote, pas besoin d'appeler GridView.paint
     	
-    /*	g.setColor(Color.BLUE);
+    	g.setColor(Color.BLUE);
     	System.out.println(scoreLabel.getText());
     	Point absolutePosition = SwingUtilities.convertPoint(spellsPanel, 
     														 new Point(scoreLabel.getX(), scoreLabel.getY()),
@@ -114,7 +115,6 @@ public class GameView extends JFrame {
     	//g.drawString(scoreLabel.getText(), absolutePosition.x , absolutePosition.y); 
     }
     
-	**/
-    
+	    
     
 }

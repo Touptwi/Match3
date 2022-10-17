@@ -26,6 +26,10 @@ public class Game extends JComponent{
     	view.repaint();
     }
     
+    public void updateSpellManager() {
+    	model.getSpellManager().updateView();
+    }
+    
     @Override
     public void paintComponent(Graphics g) {
     	super.paintComponent(g);
