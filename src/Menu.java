@@ -4,7 +4,11 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.*;
+<<<<<<< HEAD
 import java.io.File;
+=======
+import java.io.IOException;
+>>>>>>> refs/remotes/origin/main
 
 public class Menu extends JFrame {
 
@@ -15,22 +19,59 @@ public class Menu extends JFrame {
     	System.out.println(iconPath);
     	
         this.setTitle("Jewels Falls");
+
        // this.setIconImage(new ImageIcon(ClassLoader.getSystemResource(iconPath)).getImage());
         this.setPreferredSize(new Dimension(400, 600));
+
         this.setLocationRelativeTo(null);
         this.setLocation(this.getX()-200, this.getY()-300);
 
+        this.setContentPane(new JPanel() {
+            @Override
+            public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {g.drawImage(ImageIO.read(ClassLoader.getSystemResource("Images/Menu Background Title.png")), 0, 0, null);
+                } catch (IOException e) {e.fillInStackTrace();}
+            }
+        });
+
         JPanel mainPanel = new JPanel();
+        mainPanel.setOpaque(false);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(100, 0, 100, 0));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(250, 0, 0, 0));
 
-        JButton playButton = new JButton("Play");
-        playButton.addActionListener(e -> this.setVisible(false));
-        playButton.addActionListener(e -> new Game());
-        playButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mainPanel.add(playButton);
+        JButton playClassicButton = new JButton("Play Classic");
+        playClassicButton.addActionListener(e -> this.setVisible(false));
+        playClassicButton.addActionListener(e -> new Game(300));
+        playClassicButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(playClassicButton);
 
-        //TODO: add volume manager
+        mainPanel.add(Box.createRigidArea(new Dimension(0,50)));
+
+        JButton playEndlessButton = new JButton("Play Endless");
+        playEndlessButton.addActionListener(e -> this.setVisible(false));
+        playEndlessButton.addActionListener(e -> new Game());
+        playEndlessButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(playEndlessButton);
+
+        mainPanel.add(Box.createRigidArea(new Dimension(0,50)));
+
+        JLabel volumeFeedback = new JLabel("Music: 50 %");
+        volumeFeedback.setOpaque(true);
+        volumeFeedback.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(volumeFeedback);
+
+        JSlider volumeSlider = new JSlider(0);
+        volumeSlider.setAlignmentX(Component.CENTER_ALIGNMENT);
+        volumeSlider.addChangeListener(e -> volumeFeedback.setText("Music: "+volumeSlider.getValue()+" %"));
+        mainPanel.add(volumeSlider);
+
+        mainPanel.add(Box.createRigidArea(new Dimension(0,50)));
+
+        JButton exitButton = new JButton("Exit");
+        exitButton.addActionListener(e -> this.dispose());
+        exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(exitButton);
 
         this.add(mainPanel);
 
