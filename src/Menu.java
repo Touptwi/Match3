@@ -1,14 +1,21 @@
 import game.Game;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.*;
+import java.io.File;
 
 public class Menu extends JFrame {
 
     public Menu() {
+    	
+    	String parentPath = new File(System.getProperty("user.dir")).getParent();
+    	String iconPath = parentPath + "\\Images\\Jewels\\Jewels-Falls-Icon.ico";
+    	System.out.println(iconPath);
+    	
         this.setTitle("Jewels Falls");
-        this.setIconImage(new ImageIcon(ClassLoader.getSystemResource("Images/Jewels/Jewels Falls Icon.png")).getImage());
+       // this.setIconImage(new ImageIcon(ClassLoader.getSystemResource(iconPath)).getImage());
         this.setPreferredSize(new Dimension(400, 600));
         this.setLocationRelativeTo(null);
         this.setLocation(this.getX()-200, this.getY()-300);
