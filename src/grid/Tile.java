@@ -1,4 +1,4 @@
-package Grid;
+package grid;
 
 import java.awt.*;
 

@@ -1,6 +1,6 @@
 package spellManager;
 
-import Grid.GridModel.Type;
+import grid.GridModel.Type;
 
 
 /** class Spell

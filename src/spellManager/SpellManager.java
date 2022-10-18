@@ -4,7 +4,7 @@ import java.awt.Graphics;
 
 import javax.swing.JComponent;
 
-import Grid.GridModel.Type;
+import grid.GridModel.Type;
 import game.Game;
 
 

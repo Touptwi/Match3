@@ -1,6 +1,6 @@
 package game;
-import Grid.Grid;
-import Grid.GridModel.Type;
+import grid.Grid;
+import grid.GridModel.Type;
 import spellManager.SpellManager;
 
 public class GameModel {

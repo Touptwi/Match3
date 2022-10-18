@@ -1,4 +1,4 @@
-package Grid;
+package grid;
 
 public class Jewel extends Tile {
 
