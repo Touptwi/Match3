@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,12 +47,8 @@ public class GridModel {
 	private void loadImages() {
 		for(Type type : Type.values()) {
 			try {
-
-				
 				String parentPath = new File(System.getProperty("user.dir")).getParent();
-				URL url = new File(parentPath +  "\\Images\\Jewels\\" + type.name() + ".png").toURI().toURL();
-				
-				this.jewelImages.add(ImageIO.read(url));
+				this.jewelImages.add(ImageIO.read(ClassLoader.getSystemResource("\\Images\\Jewels\\" + type.name() + ".png")));
 			} catch (IOException e) {System.out.print("Can't load image of "+type.name());}
 
 		}
@@ -97,8 +92,8 @@ public class GridModel {
 		boolean isFirstMatchVertical = new Random().nextBoolean();
     	Point firstTile;
     	
-    	Type firstColor = Type.values()[new Random().nextInt(5)];
-    	//Type firstColor = Type.BLUE_JEWEL;
+    	//Type firstColor = Type.values()[new Random().nextInt(5)];
+    	Type firstColor = Type.BLUE_JEWEL;
     	
     	if (isFirstMatchVertical) {
     		firstTile = new Point(new Random().nextInt(columns), 
@@ -170,6 +165,7 @@ public class GridModel {
 		return returnColor;
 	}
 
+	//Get the Tile's coord or (-1, -1) if not found
     public Point getCoords(Tile tile) {
         for (ArrayList<Tile> column : this.gridTable) {
             for (Tile Tile : column) {
@@ -182,6 +178,7 @@ public class GridModel {
         return new Point(-1, -1);
     }
 
+	//Get the Tile at given coords or null if not found
     public Tile getTile(Point Coords) {
         if(Coords.x>=0 && Coords.y>=0 && Coords.x<this.columns && Coords.y<this.rows) {
             return this.gridTable.get(Coords.x).get(Coords.y);
@@ -190,6 +187,7 @@ public class GridModel {
         return null;
     }
 
+	//Return the List of Tile's Neighbors
     public ArrayList<Tile> getNeighbors(Tile tile) {
         ArrayList<Tile> neighbors = new ArrayList<>();
         Point tileCoords = this.getCoords(tile);
@@ -199,7 +197,8 @@ public class GridModel {
         neighbors.add(this.getTile(new Point(tileCoords.x-1, tileCoords.y)));
         return neighbors;
     }
-    
+
+	//Return the Tile's neighbor in the given direction
     public Tile getNeighbor(Tile tile, Direction d) {
 
 		if(tile==null)
@@ -253,6 +252,7 @@ public class GridModel {
     public void setSelectedTile(Tile Tile) {this.selectedTile = Tile;}
 	public List<BufferedImage> getJewelImages() {return this.jewelImages;}
 
+	//Switch Tile's type if they are neighbors
     public void switchTiles(Tile Tile1, Tile Tile2) {
         if(Tile1!=null && Tile2!=null && getNeighbors(Tile2).contains(Tile1)) {
             Type temp = Tile2.getType();
@@ -261,12 +261,15 @@ public class GridModel {
         }
     }
 
+	//Call switchTiles and create an animation in the given direction
     public void moveTileTo(Tile Tile, Direction direction) {
 		Tile neighborTile = getNeighbor(Tile, direction);
 		switchTiles(Tile, neighborTile);
+		//Create animation
 		this.controller.getView().movingTileAnimation(neighborTile, getCoords(Tile), getCoords(neighborTile));
     }
 
+	//Make a checkMatch3on the whole grid
 	private void checkMatch3ToAll() {
 		for(ArrayList<Tile> column : this.gridTable) {
 			for(Tile tile : column)
@@ -275,17 +278,20 @@ public class GridModel {
 		}
 	}
 
+	/*
+	Check if there is a Match3 at the Tile given
+	Set type of Tiles finds to null
+	Increment the score
+	Tell that model need to do a checkFlyingTiles
+	*/
 	public void checkMatch3To(Tile Tile) {
 		Type matchColor = Tile.getType();
 		boolean match3 = false;
 		for (ArrayList<Tile> Match : getLongMatchOf(Tile)) {
 			if(!Match.isEmpty()) {
-//				System.out.print("\nFind Match with: "+"("+Tile.getCoords().x+","+Tile.getCoords().y+") ");
 				for (Tile tile : Match) {
-//					System.out.print("("+tile.getCoords().x+","+tile.getCoords().y+") ");
 					getTile(tile.getCoords()).setType(null);
 				}
-				
 				
 				getTile(Tile.getCoords()).setType(null);
 
@@ -298,13 +304,16 @@ public class GridModel {
 		}
 
 		if(match3) {
+			this.controller.getView().playBreakingTilesSound();
 			this.controller.getGame().incrementScore(1);
 			this.needCheckFlyingTiles = true;
+			//If there is already no more animations to call the update, it does it
 			if (this.controller.getView().isTempTilesEmpty())
 				goBackToModel();
 		}
 	}
 
+	//Return a list of Neighbors in line of 2
 	private ArrayList<ArrayList<Tile>> get2NeighborsInAllDirections(Tile Tile) {
 		ArrayList<ArrayList<Tile>> possibleMatchs = new ArrayList<>();
 		ArrayList<Tile> NorthMatch = new ArrayList<>();
@@ -328,11 +337,14 @@ public class GridModel {
 		return possibleMatchs;
 	}
 
+	//Return a list of Neighbors in line where there are match3
 	private ArrayList<ArrayList<Tile>> getMatchsOf(Tile Tile) {
 		ArrayList<ArrayList<Tile>> possibleMatchs = get2NeighborsInAllDirections(Tile);
 		for(int i=0 ; i< possibleMatchs.size(); i++) {
+			//Check if the first tile is the same type (else it removes the line from the list)
 			if(possibleMatchs.get(i).get(0)==null || possibleMatchs.get(i).get(0).getType()!=Tile.getType())
 				possibleMatchs.set(i, new ArrayList<>());
+			//Check deeper if there is a real match3 (else it removes the line from the list)
 			else if(possibleMatchs.get(i).get(1)==null || possibleMatchs.get(i).get(1).getType()!=Tile.getType())
 				if(!possibleMatchs.get((i+2)%4).isEmpty() && possibleMatchs.get((i+2)%4).get(0)!=null && possibleMatchs.get((i+2)%4).get(0).getType()==Tile.getType())
 					possibleMatchs.get(i).remove(1);
@@ -342,12 +354,14 @@ public class GridModel {
 		return possibleMatchs;
 	}
 
+	//Return the list of Match3 but extended to match4, match5, etc
 	private ArrayList<ArrayList<Tile>> getLongMatchOf(Tile Tile) {
 		ArrayList<ArrayList<Tile>> Matchs = getMatchsOf(Tile);
 		for(int i=0 ; i< Matchs.size(); i++) {
 			Direction direction = Arrays.stream(Direction.values()).collect(Collectors.toList()).get(i);
 			if(!Matchs.get(i).isEmpty()) {
 				Tile nextNeighbor = getNeighbor(Matchs.get(i).get(Matchs.get(i).size()-1), direction);
+				//Check deeper
 				while (nextNeighbor!=null && nextNeighbor.getType() == Tile.getType()) {
 					Matchs.get(i).add(getNeighbor(Matchs.get(i).get(Matchs.get(i).size()-1), direction));
 					nextNeighbor = getNeighbor(Matchs.get(i).get(Matchs.get(i).size()-1), direction);
@@ -375,16 +389,18 @@ public class GridModel {
 		return null;
 	} */
 
-	
+	//Check if there is any Tiles flying that need to fall (and make it)
 	public void checkFlyingTiles() {
 		boolean isFlyingTile = false;
 
+		//Generate new Tiles at the Top
 		for (ArrayList<Tile> column : this.gridTable) {
 			if (column.get(0).getType() == null) {
 				column.get(0).setType(Arrays.stream(Type.values()).collect(Collectors.toList()).get(new Random().nextInt(Type.values().length)));
 			}
 		}
 
+		//Make Tiles falling
 		for (int i = this.rows - 2; i >= 0; i--) {
 			for (ArrayList<Tile> column : this.gridTable) {
 				if (column.get(i).getType() != null && getNeighbor(column.get(i), Direction.SOUTH) != null && getNeighbor(column.get(i), Direction.SOUTH).getType() == null) {
@@ -394,15 +410,20 @@ public class GridModel {
 			}
 		}
 
+		//Tell to model that Tiles still need to fall
 		if (isFlyingTile)
 			this.needCheckFlyingTiles = true;
+		//Tell to model that he can/have to check for Match3
 		else
 			this.needCheckMatch3 = true;
 
+		//If there is already no more animations to call the update, it does it
 		if (this.controller.getView().isTempTilesEmpty())
 			goBackToModel();
 	}
 
+	//Called at the end of the last animation
+	//Usefull to avoid stackOverFlows in checkMatch3 and checkFlyingTiles
 	public void goBackToModel() {
 		if(needCheckFlyingTiles) {
 			this.needCheckFlyingTiles = false;
@@ -414,18 +435,15 @@ public class GridModel {
 		}
 	}
 
-	public void destroyColumn(int j) {
-		ArrayList<Tile> column = gridTable.get(j);
-		
-		for (Tile tile : column) {
-			tile.setType(null);
-		}
+	public void destroyRow(int i) {
+		for (ArrayList<Tile> column : gridTable)
+			column.get(i).setType(null);
 		
 	}
 	
-	public void destroyRow(int i) {
-		for(ArrayList<Tile> column : gridTable) {
-			column.get(i).setType(null);
-		}
+	public void destroyColumn(int j) {
+		ArrayList<Tile> column = gridTable.get(j);
+		for (Tile tile : column)
+			tile.setType(null);
 	}
 }

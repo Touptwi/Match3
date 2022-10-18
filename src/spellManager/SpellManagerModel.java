@@ -1,6 +1,7 @@
 package spellManager;
 
 
+
 import java.awt.Color;
 import java.util.Random;
 
@@ -8,6 +9,7 @@ import Grid.Grid;
 import Grid.GridModel;
 import Grid.GridModel.Type;
 import game.Game;
+
 
 public class SpellManagerModel {
 	
