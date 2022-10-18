@@ -1,8 +1,12 @@
 package spellManager;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JComponent;
+import javax.swing.JProgressBar;
 
 import Grid.GridModel.Type;
 import game.Game;
@@ -22,7 +26,7 @@ public class SpellManager extends JComponent {
 	
 	public SpellManager(Game game) {
 		this.model = new SpellManagerModel(this);
-		this.view = new SpellManagerView(this);
+		this.view = new SpellManagerView(this, mouseListener);
 		
 		this.game = game;
 	}
@@ -41,6 +45,7 @@ public class SpellManager extends JComponent {
 	}
 
 	public void updateView() {
+		view.updateSpellBars();
 		repaint();
 		
 	}
@@ -53,5 +58,29 @@ public class SpellManager extends JComponent {
 		this.view.updateSpellBars();
 	}
 	
+	private MouseListener mouseListener = new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) { }
+			
+			@Override
+			public void mousePressed(MouseEvent e) { }
+			
+			@Override
+			public void mouseExited(MouseEvent e) { }
+			
+			@Override
+			public void mouseEntered(MouseEvent e) { }
+			
+			//le mouselistener ne sert que pour les jprogressBar
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JProgressBar progressBar = (JProgressBar)e.getComponent();
+				Color color = progressBar.getForeground();
+				
+				model.activateSpell(color);
+				
+			}
+		};
 	
 }

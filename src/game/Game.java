@@ -29,7 +29,7 @@ public class Game extends JComponent{
         this.view = new GameView(this);
     }
 
-    public GameModel getGame() {return this.model;}
+    public GameModel getModel() {return this.model;}
     public GameView getView() {return this.view;}
     
     public SpellManager getSpellManager() { return this.model.getSpellManager(); }

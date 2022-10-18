@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,7 +51,9 @@ public class GridModel {
 
 				
 				String parentPath = new File(System.getProperty("user.dir")).getParent();
-				this.jewelImages.add(ImageIO.read(ClassLoader.getSystemResource("\\Images\\Jewels\\" + type.name() + ".png")));
+				URL url = new File(parentPath +  "\\Images\\Jewels\\" + type.name() + ".png").toURI().toURL();
+				
+				this.jewelImages.add(ImageIO.read(url));
 			} catch (IOException e) {System.out.print("Can't load image of "+type.name());}
 
 		}
@@ -94,8 +97,8 @@ public class GridModel {
 		boolean isFirstMatchVertical = new Random().nextBoolean();
     	Point firstTile;
     	
-    	//Type firstColor = Type.values()[new Random().nextInt(5)];
-    	Type firstColor = Type.BLUE_JEWEL;
+    	Type firstColor = Type.values()[new Random().nextInt(5)];
+    	//Type firstColor = Type.BLUE_JEWEL;
     	
     	if (isFirstMatchVertical) {
     		firstTile = new Point(new Random().nextInt(columns), 
@@ -408,6 +411,21 @@ public class GridModel {
 		else if(this.needCheckMatch3) {
 			this.needCheckMatch3 = false;
 			checkMatch3ToAll();
+		}
+	}
+
+	public void destroyColumn(int j) {
+		ArrayList<Tile> column = gridTable.get(j);
+		
+		for (Tile tile : column) {
+			tile.setType(null);
+		}
+		
+	}
+	
+	public void destroyRow(int i) {
+		for(ArrayList<Tile> column : gridTable) {
+			column.get(i).setType(null);
 		}
 	}
 }

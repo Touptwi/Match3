@@ -30,6 +30,8 @@ public class Grid extends JComponent {
     public GridModel getModel() {return this.model;}
     public GridView getView() {return this.view;}
     public GameModel getGame() {return this.game; }
+    public int getRows() { return model.getRows(); }
+    public int getColumns() { return model.getColumns(); }
     public ArrayList<ArrayList<Tile>> getGridTable() {return this.model.getGridTable();}
     public Tile getSelectedTile() {return this.model.getSelectedTile();}
     public List<BufferedImage> getJewelImages() {return this.model.getJewelImages();}

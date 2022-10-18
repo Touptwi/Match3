@@ -1,6 +1,7 @@
 package spellManager;
 
 import Grid.GridModel.Type;
+import game.Game;
 
 
 /** class Spell
@@ -33,12 +34,8 @@ public class Spell {
 		this.color = color;
 		
 		// On instancie un SpellEffect null
-		this.action = new SpellEffect() {
-			
-			@Override
-			public void action() { }
-			
-		};
+
+		this.action = g -> {};
 	}
 	
 	
@@ -61,6 +58,14 @@ public class Spell {
 
 	public float getRatio() {
 		return (float)currentCharge/(float)chargeNeeded;
+	}
+	
+	public boolean isCharged() {
+		return (currentCharge == chargeNeeded);
+	}
+	
+	public void doAction(Game game) {
+		action.action(game);
 	}
 	
 }

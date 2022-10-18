@@ -1,5 +1,7 @@
 package spellManager;
 
-public abstract class SpellEffect {
-	public abstract void action();
+import game.Game;
+
+public interface SpellEffect {
+	public void action(Game game);
 }

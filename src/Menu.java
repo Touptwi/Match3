@@ -4,11 +4,12 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.*;
-<<<<<<< HEAD
+import java.awt.image.BufferedImage;
 import java.io.File;
-=======
+
 import java.io.IOException;
->>>>>>> refs/remotes/origin/main
+import java.net.URL;
+
 
 public class Menu extends JFrame {
 
@@ -30,7 +31,15 @@ public class Menu extends JFrame {
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                try {g.drawImage(ImageIO.read(ClassLoader.getSystemResource("Images/Menu Background Title.png")), 0, 0, null);
+                
+                
+                try {
+                	String parentPath = new File(System.getProperty("user.dir")).getParent();
+                	System.out.println("parent path : "+ parentPath);
+                	
+                	//URL url = ClassLoader.getSystemResource(parentPath + "\\Resources\\Images\\Menu Background Title.png");
+                	URL url = new File(parentPath + "\\Resources\\Images\\Menu Background Title.png").toURI().toURL();
+                	g.drawImage(ImageIO.read(url), 0, 0, null);
                 } catch (IOException e) {e.fillInStackTrace();}
             }
         });

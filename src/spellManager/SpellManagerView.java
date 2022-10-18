@@ -1,7 +1,8 @@
 package spellManager;
 
 import java.awt.Color;
-
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -29,17 +30,17 @@ public class SpellManagerView {
 	private JProgressBar purpleSpellBar;
 	
 	
-	public SpellManagerView(SpellManager controller) {
+	public SpellManagerView(SpellManager controller, MouseListener mouseListener) {
 		this.controller = controller;
 		
 		spellManagerPanel = new JPanel();
 		boxLayout = new BoxLayout(spellManagerPanel, BoxLayout.Y_AXIS);
 		spellManagerPanel.setLayout(boxLayout);
 		
-		setupProgressBars();
+		setupProgressBars(mouseListener);
 	}
 
-	private void setupProgressBars() {
+	private void setupProgressBars(MouseListener mouseListener) {
 		
 		// Fisrt create progressBars
 		blueSpellBar = new JProgressBar();
@@ -59,11 +60,21 @@ public class SpellManagerView {
 		purpleSpellBar.setStringPainted(true);
 		purpleSpellBar.setForeground(new Color(128,0,128));
 		
+		
+		//Setup scale of progressBar 
 		blueSpellBar.setMaximum(controller.getModel().getBlueSpell().getMaximumCharge());
 		greenSpellBar.setMaximum(controller.getModel().getGreenSpell().getMaximumCharge());
 		redSpellBar.setMaximum(controller.getModel().getRedSpell().getMaximumCharge());
 		yellowSpellBar.setMaximum(controller.getModel().getYellowSpell().getMaximumCharge());
 		purpleSpellBar.setMaximum(controller.getModel().getPurpleSpell().getMaximumCharge());
+		
+		
+		//Adding mouseListeners
+		blueSpellBar.addMouseListener(mouseListener);
+		greenSpellBar.addMouseListener(mouseListener);
+		redSpellBar.addMouseListener(mouseListener);
+		yellowSpellBar.addMouseListener(mouseListener);
+		purpleSpellBar.addMouseListener(mouseListener);
 		
 		spellManagerPanel.add(blueSpellBar);
 		spellManagerPanel.add(greenSpellBar);
@@ -81,6 +92,8 @@ public class SpellManagerView {
 		purpleSpellBar.setValue(controller.getModel().getPurpleSpell().getCurrentCharge());
 		yellowSpellBar.setValue(controller.getModel().getYellowSpell().getCurrentCharge());
 	}
+	
+	
 	
 
 }

@@ -56,7 +56,7 @@ public class GameView extends JFrame {
 	private void setupScorePanel() {
 		
 		scoreLabel = new JLabel();
-        int score = this.controller.getGame().getScore();
+        int score = this.controller.getModel().getScore();
         scoreLabel.setText("Score : " + score);
         System.out.println("Point " + scoreLabel.getX() + ","+ scoreLabel.getY());
         
@@ -80,7 +80,7 @@ public class GameView extends JFrame {
 
     public void setupGrid() {
         this.gridPanel = new JPanel();
-        this.gridPanel.add(this.controller.getGame().getGrid());
+        this.gridPanel.add(this.controller.getModel().getGrid());
     }
 
     private void setupSpellsPanel(){
@@ -96,7 +96,7 @@ public class GameView extends JFrame {
     
     
     public void updateScoreLabel() {
-    	int score = controller.getGame().getScore();
+    	int score = controller.getModel().getScore();
     	scoreLabel.setText("Score : " + score);
     }
     
