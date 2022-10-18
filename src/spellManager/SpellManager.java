@@ -7,6 +7,12 @@ import javax.swing.JComponent;
 import Grid.GridModel.Type;
 import game.Game;
 
+
+/** Class SpellManager.
+ * 
+ * @author mouge
+ *
+ */
 public class SpellManager extends JComponent {
 	
 	private SpellManagerModel model;
@@ -39,8 +45,11 @@ public class SpellManager extends JComponent {
 		
 	}
 
+	
 	public void incrementChargeOfSpell(int increment, Type matchColor) {
 		this.model.incrementChargeOfSpell(increment, matchColor);
+		
+		//Once model is updated, we notify the view to repaint itself
 		this.view.updateSpellBars();
 	}
 	

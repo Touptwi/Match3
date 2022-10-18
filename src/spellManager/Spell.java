@@ -2,6 +2,13 @@ package spellManager;
 
 import Grid.GridModel.Type;
 
+
+/** class Spell
+ * Describe a spell on the grid.
+ * 
+ * Contains a specific color, and an effect.
+ *
+ */
 public class Spell {
 	
 	private Type color;
@@ -34,6 +41,8 @@ public class Spell {
 		};
 	}
 	
+	
+	//Getters 
 	public int getCurrentCharge() { return currentCharge; }
 	public int getMaximumCharge() {return chargeNeeded;}
 	

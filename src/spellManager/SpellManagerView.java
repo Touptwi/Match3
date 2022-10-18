@@ -7,6 +7,14 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
+
+/** Class SpellManagerView.
+ * 
+ *  Contains a JPanel, spellManagerPanel where all is stored.
+ *  spellManagerPanel is recieved by the GameView and draws it.
+ * 
+ *
+ */
 public class SpellManagerView {
 	
 	private SpellManager controller;
@@ -32,6 +40,8 @@ public class SpellManagerView {
 	}
 
 	private void setupProgressBars() {
+		
+		// Fisrt create progressBars
 		blueSpellBar = new JProgressBar();
 		redSpellBar = new JProgressBar();
 		greenSpellBar = new JProgressBar();

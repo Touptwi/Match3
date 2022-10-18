@@ -6,6 +6,14 @@ import javax.swing.JComponent;
 
 import spellManager.SpellManager;
 
+
+/** Class Game.
+ * 
+ * Representation of a single match3 game.
+ * Contains all necessary data for a game, like score and Timer.
+ * Also manage a Grid and a SpellManager.
+ *
+ */
 public class Game extends JComponent{
 
     private GameModel model;
