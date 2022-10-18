@@ -41,7 +41,9 @@ public class GameModel {
     }
 
     private void startTimer() {
-        //TODO
+        if(this.timer != -1) {
+            //TODO
+        }
     }
 
     public Grid getGrid() {return this.grid;}

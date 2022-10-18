@@ -2,7 +2,6 @@ package Grid;
 
 import javax.swing.*;
 
-import Grid.GridModel.Type;
 import game.GameModel;
 
 import java.awt.*;
@@ -114,7 +113,4 @@ public class Grid extends JComponent {
         else
             getView().setHoveredTilePosition(null);
     }
-
-
-
 }

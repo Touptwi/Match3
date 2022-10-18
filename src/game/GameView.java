@@ -17,6 +17,7 @@ public class GameView extends JFrame {
         this.controller = controller;
         setupWindow();
         try {
+            //Load the music
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(ClassLoader.getSystemResource("Eric Skiff - A Night Of Dizzy Spells.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
@@ -39,14 +40,14 @@ public class GameView extends JFrame {
         this.setTitle("Jewels Falls");
     //    this.setIconImage(new ImageIcon(ClassLoader.getSystemResource("Images/Jewels/Jewels Falls Icon.png")).getImage());
         this.setPreferredSize(new Dimension(1000, 800));
+        //Set the windows at the center of the screen
         this.setLocationRelativeTo(null);
         this.setLocation(this.getX()-500, this.getY()-400);
 
         setupGrid();
         setupSpellsPanel();
-        
+
         setupMainPanel();
-        
 
         this.pack();
         this.setVisible(true);
@@ -54,25 +55,21 @@ public class GameView extends JFrame {
     }
 
 	private void setupScorePanel() {
-		
-		scoreLabel = new JLabel();
+		this.scoreLabel = new JLabel();
         int score = this.controller.getGame().getScore();
-        scoreLabel.setText("Score : " + score);
-        System.out.println("Point " + scoreLabel.getX() + ","+ scoreLabel.getY());
-        
-        
+        this.scoreLabel.setText("Score : " + score);
+        System.out.println("Point " + this.scoreLabel.getX() + ","+ this.scoreLabel.getY());
 	}
 
     private void setupMainPanel() {
         JSplitPane MainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-        
-        
+
         MainPanel.setLeftComponent(this.gridPanel);
         MainPanel.setRightComponent(this.spellsPanel);
         MainPanel.setDividerLocation(0.75);
         MainPanel.setDividerSize(0);
         
-        spellsPanel.add(scoreLabel, BorderLayout.CENTER);
+        this.spellsPanel.add(this.scoreLabel, BorderLayout.CENTER);
         
         this.MainPanel = MainPanel;
         this.add(this.MainPanel);
@@ -88,19 +85,15 @@ public class GameView extends JFrame {
         
         this.setupScorePanel();
         
-        spellsPanel.add(scoreLabel, BorderLayout.NORTH);
-        spellsPanel.add(this.controller.getSpellManager().getView().getPanel(), BorderLayout.CENTER);
-
-        
+        this.spellsPanel.add(this.scoreLabel, BorderLayout.NORTH);
+        this.spellsPanel.add(this.controller.getSpellManager().getView().getPanel(), BorderLayout.CENTER);
     }
     
     
     public void updateScoreLabel() {
-    	int score = controller.getGame().getScore();
-    	scoreLabel.setText("Score : " + score);
+    	int score = this.controller.getGame().getScore();
+    	this.scoreLabel.setText("Score : " + score);
     }
-    
-  
     
     public void paint(Graphics g) {
     	super.paint(g);
@@ -114,7 +107,4 @@ public class GameView extends JFrame {
     														 MainPanel);
     	//g.drawString(scoreLabel.getText(), absolutePosition.x , absolutePosition.y); 
     }
-    
-	    
-    
 }

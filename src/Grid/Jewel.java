@@ -1,10 +1,5 @@
 package Grid;
 
-import Grid.GridModel;
-import Grid.Tile;
-
-import java.util.Random;
-
 public class Jewel extends Tile {
 
     public Jewel(GridModel gridModel) {
