@@ -13,7 +13,7 @@ public class GameView extends JFrame {
     private JPanel spellsPanel;
     private JLabel scoreLabel;
 
-    public GameView(Game controller) {
+    public GameView(Game controller, float volume) {
         this.controller = controller;
         setupWindow();
         try {
@@ -25,7 +25,7 @@ public class GameView extends JFrame {
 
             //Change the music Volume
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-25.0f);
+            gainControl.setValue(volume);
 
             clip.start();
             System.out.println("Let's play Music !");

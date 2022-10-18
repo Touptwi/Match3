@@ -1,6 +1,10 @@
 package Grid;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -22,6 +26,8 @@ public class GridView {
 
     private BufferedImage background;
 
+    private AudioInputStream breakingTilesSound;
+
     public GridView() {
         try {this.background = ImageIO.read(ClassLoader.getSystemResource("Images/WaterFall Background.jpg"));
         } catch (IOException e) {e.fillInStackTrace();}
@@ -30,8 +36,6 @@ public class GridView {
     public void paint(Graphics2D g, Grid grid) {
         this.g = g;
         this.grid = grid;
-//        this.g.setColor(Color.WHITE);
-//        this.g.fillRect(0,0, grid.getWidth(), grid.getHeight());
         this.g.drawImage(this.background, 0,0,this.grid);
         if(this.hoveredTilePosition !=null)
             drawHoveredTile();
@@ -121,5 +125,18 @@ public class GridView {
         for(Tile tile : this.tempTiles) {
             drawTile(tile, this.tempTilePositions.get(this.tempTiles.indexOf(tile)));
         }
+    }
+
+    public void playBreakingTilesSound() {
+        try {
+        //Load breaking sound
+        Clip clip = AudioSystem.getClip();
+        clip.open(AudioSystem.getAudioInputStream(ClassLoader.getSystemResource("Breaking tiles Sound.wav")));
+
+        //Change the sound Volume
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(-5.0f);
+        clip.start();
+        } catch (Exception e) {e.fillInStackTrace();}
     }
 }

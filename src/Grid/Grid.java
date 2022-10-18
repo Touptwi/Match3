@@ -55,8 +55,6 @@ public class Grid extends JComponent {
                 super.mousePressed(e);
 
                 Tile tileUnderMouse = getTileUnderMouse(e);
-//                System.out.print("Echange entre ("+ tileUnderMouse.getX() + ", "+ tileUnderMouse.getY() +") et ");
-//                System.out.print("Echange entre ("+e.getPoint().x/getModel().getJewelSize().width+", "+e.getPoint().y/getModel().getJewelSize().height+") et ");
                 getModel().setSelectedTile(getModel().getTile(new Point(e.getPoint().x/getModel().getJewelSize().width, e.getPoint().y/getModel().getJewelSize().height)));
 
             }
@@ -66,13 +64,11 @@ public class Grid extends JComponent {
                 super.mouseReleased(e);
 
                 Tile tileUnderMouse = getTileUnderMouse(e);
-//                System.out.print("("+e.getPoint().x/getModel().getJewelSize().width+", "+e.getPoint().y/getModel().getJewelSize().height+")\n");
                 System.out.print("("+ tileUnderMouse.getX() +", "+ tileUnderMouse.getY() +")\n");
                 Tile pointedTile = getModel().getTile(new Point(e.getPoint().x/getModel().getJewelSize().width, e.getPoint().y/getModel().getJewelSize().height));
                 getModel().switchTiles(getSelectedTile(), pointedTile);
                 checkMatch3To(getSelectedTile());
                 checkMatch3To(pointedTile);
-//                getView().movingTileAnimation(getSelectedTile(), getModel().getCoords(pointedTile), getModel().getCoords(getSelectedTile()));
                 getView().setCursorDraggingPoint(null);
                 repaint();
             }

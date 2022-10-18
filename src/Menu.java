@@ -1,6 +1,10 @@
 import game.Game;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 
 import java.awt.*;
@@ -8,6 +12,10 @@ import java.io.File;
 import java.io.IOException;
 
 public class Menu extends JFrame {
+
+    private float volume = -25.0f;
+    private Clip music;
+    private FloatControl gainControl;
 
     public Menu() {
     	
@@ -24,6 +32,20 @@ public class Menu extends JFrame {
         this.setLocationRelativeTo(null);
         this.setLocation(this.getX()-200, this.getY()-300);
 
+        try {
+            //Load the music
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(ClassLoader.getSystemResource("Joshua McLean - Mountain Trials.wav"));
+            this.music = AudioSystem.getClip();
+            this.music.open(audioInputStream);
+            this.music.loop(Clip.LOOP_CONTINUOUSLY);
+
+            //Change the music Volume
+            this.gainControl = (FloatControl) this.music.getControl(FloatControl.Type.MASTER_GAIN);
+            this.gainControl.setValue(this.volume);
+
+            this.music.start();
+            System.out.println("Let's play Music !");
+        } catch (Exception e) {System.out.println("Can't play Music");}
 
         //Set a background image
         this.setContentPane(new JPanel() {
@@ -43,7 +65,8 @@ public class Menu extends JFrame {
         //Add the Button to play with timer
         JButton playClassicButton = new JButton("Play Classic");
         playClassicButton.addActionListener(e -> this.setVisible(false));
-        playClassicButton.addActionListener(e -> new Game(300));
+        playClassicButton.addActionListener(e -> new Game(300, this.volume));
+        playClassicButton.addActionListener(e -> this.music.stop());
         playClassicButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(playClassicButton);
 
@@ -52,7 +75,8 @@ public class Menu extends JFrame {
         //Add the Button to play in Endless mod
         JButton playEndlessButton = new JButton("Play Endless");
         playEndlessButton.addActionListener(e -> this.setVisible(false));
-        playEndlessButton.addActionListener(e -> new Game());
+        playEndlessButton.addActionListener(e -> new Game(this.volume));
+        playEndlessButton.addActionListener(e -> this.music.stop());
         playEndlessButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(playEndlessButton);
 
@@ -68,6 +92,7 @@ public class Menu extends JFrame {
         JSlider volumeSlider = new JSlider(0);
         volumeSlider.setAlignmentX(Component.CENTER_ALIGNMENT);
         volumeSlider.addChangeListener(e -> volumeFeedback.setText("Music: "+volumeSlider.getValue()+" %"));
+        volumeSlider.addChangeListener(e -> setVolume(-60.0f+50*(volumeSlider.getValue()/100.0f)));
         mainPanel.add(volumeSlider);
 
         mainPanel.add(Box.createRigidArea(new Dimension(0,50)));
@@ -83,5 +108,16 @@ public class Menu extends JFrame {
         this.pack();
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    //method to correctly set the new volume
+    private void setVolume(float newVolume) {
+        if(newVolume<=-60.0f) {
+            this.volume = this.gainControl.getMinimum();
+            this.gainControl.setValue(this.gainControl.getMinimum());
+        } else {
+            this.volume= newVolume;
+            this.gainControl.setValue(newVolume);
+        }
     }
 }

@@ -19,14 +19,14 @@ public class Game extends JComponent{
     private GameModel model;
     private GameView view;
 
-    public Game(int timer) {
+    public Game(int timer, float volume) {
         this.model = new GameModel(this, timer);
-        this.view = new GameView(this);
+        this.view = new GameView(this, volume);
     }
 
-    public Game() {
+    public Game(float volume) {
         this.model = new GameModel(this);
-        this.view = new GameView(this);
+        this.view = new GameView(this, volume);
     }
 
     public GameModel getGame() {return this.model;}

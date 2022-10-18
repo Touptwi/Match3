@@ -277,9 +277,7 @@ public class GridModel {
 		boolean match3 = false;
 		for (ArrayList<Tile> Match : getLongMatchOf(Tile)) {
 			if(!Match.isEmpty()) {
-//				System.out.print("\nFind Match with: "+"("+Tile.getCoords().x+","+Tile.getCoords().y+") ");
 				for (Tile tile : Match) {
-//					System.out.print("("+tile.getCoords().x+","+tile.getCoords().y+") ");
 					getTile(tile.getCoords()).setType(null);
 				}
 				
@@ -295,6 +293,7 @@ public class GridModel {
 		}
 
 		if(match3) {
+			this.controller.getView().playBreakingTilesSound();
 			this.controller.getGame().incrementScore(1);
 			this.needCheckFlyingTiles = true;
 			if (this.controller.getView().isTempTilesEmpty())
