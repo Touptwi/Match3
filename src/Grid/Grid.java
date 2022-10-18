@@ -47,14 +47,13 @@ public class Grid extends JComponent {
     @Override
     public Dimension getPreferredSize(){return getSize();}
 
-    //Set up an awful Listener
+    //MouseListener to make a move
     private void setupMouseListener() {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
-
-                Tile tileUnderMouse = getTileUnderMouse(e);
+                //Catch the first Tile selected
                 getModel().setSelectedTile(getModel().getTile(new Point(e.getPoint().x/getModel().getJewelSize().width, e.getPoint().y/getModel().getJewelSize().height)));
 
             }
@@ -63,12 +62,15 @@ public class Grid extends JComponent {
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
 
+                //Catch the second Tile selected to make a move
                 Tile tileUnderMouse = getTileUnderMouse(e);
                 System.out.print("("+ tileUnderMouse.getX() +", "+ tileUnderMouse.getY() +")\n");
                 Tile pointedTile = getModel().getTile(new Point(e.getPoint().x/getModel().getJewelSize().width, e.getPoint().y/getModel().getJewelSize().height));
                 getModel().switchTiles(getSelectedTile(), pointedTile);
+                //Check both new changes
                 checkMatch3To(getSelectedTile());
                 checkMatch3To(pointedTile);
+
                 getView().setCursorDraggingPoint(null);
                 repaint();
             }
@@ -77,6 +79,7 @@ public class Grid extends JComponent {
             @Override
             public void mouseDragged(MouseEvent e) {
                 super.mouseDragged(e);
+                //Catch the point where the drag start
                 getView().setCursorDraggingPoint(e.getPoint());
                 handleMouseMoved(e);
                 repaint();
@@ -92,6 +95,7 @@ public class Grid extends JComponent {
         });
     }
 
+    //Return the Tile under the mouse
     public Tile getTileUnderMouse(MouseEvent e) {
 
         Point p = e.getPoint();
@@ -102,6 +106,7 @@ public class Grid extends JComponent {
 
     }
 
+    //Update which tile is hovered
     private void handleMouseMoved(MouseEvent e) {
         Tile tileUnderMouse = getTileUnderMouse(e);
         if(tileUnderMouse!=null)

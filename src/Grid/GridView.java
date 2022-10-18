@@ -1,7 +1,6 @@
 package Grid;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
@@ -25,8 +24,6 @@ public class GridView {
     private ArrayList<Point> tempHidingPositions = new ArrayList<>();
 
     private BufferedImage background;
-
-    private AudioInputStream breakingTilesSound;
 
     public GridView() {
         try {this.background = ImageIO.read(ClassLoader.getSystemResource("Images/WaterFall Background.jpg"));
@@ -79,8 +76,10 @@ public class GridView {
     
     public void setHoveredTilePosition(Point newTilePosition) {this.hoveredTilePosition = newTilePosition;}
 
+    //If the tempTiles is empty, there is no animation
     public boolean isTempTilesEmpty() {return this.tempTiles.isEmpty();}
 
+    //Create a moving animation for Tiles
     public void movingTileAnimation(Tile Tile, Point oldPosition, Point newPosition) {
         Dimension jewelSize = this.grid.getModel().getJewelSize();
         Tile tempTile = new Jewel(grid.getModel(), Tile.getType());
@@ -89,13 +88,16 @@ public class GridView {
         newPosition.move(newPosition.x*jewelSize.width, newPosition.y*jewelSize.height);
         this.tempTilePositions.add(tempTilePosition);
         this.tempHidingPositions.add(newPosition);
+        //Set the "Thread" for animation
         Timer timer = new Timer(50, null);
         Dimension jewelSizePart = new Dimension(jewelSize.width/3, jewelSize.height/3);
         timer.addActionListener( e -> timerAction(tempTile, tempTilePosition, timer, newPosition, jewelSizePart));
         timer.start();
     }
 
+    //Action performed by a moving animation's Thread
     private void timerAction(Tile tempTile, Point tempTilePosition, Timer timer, Point newPosition, Dimension jewelSizePart) {
+        //When moving to the newPosition
         if(tempTilePosition.x < newPosition.x)
             tempTilePosition.x +=jewelSizePart.width;
         else if(tempTilePosition.x > newPosition.x)
@@ -105,28 +107,34 @@ public class GridView {
         else if(tempTilePosition.y > newPosition.y)
             tempTilePosition.y -=jewelSizePart.height;
         this.grid.repaint();
+
+        //When arrived
         if(tempTilePosition.x == newPosition.x && tempTilePosition.y == newPosition.y) {
             timer.stop();
             this.tempTiles.remove(tempTile);
             this.tempTilePositions.remove(tempTilePosition);
             this.tempHidingPositions.remove(newPosition);
+            //if it's the last animation it notifies the model
             if(isTempTilesEmpty())
                 this.grid.getModel().goBackToModel();
         }
     }
 
     private void drawTempTiles() {
+        //Draw the background's part to hide Tile under the animation
         for(Tile tile : this.tempTiles) {
             Point tempHidingPosition = this.tempHidingPositions.get(this.tempTiles.indexOf(tile));
             Dimension jewelSize = this.grid.getModel().getJewelSize();
             BufferedImage tempSubImage = this.background.getSubimage(tempHidingPosition.x, tempHidingPosition.y, jewelSize.width, jewelSize.height);
             this.g.drawImage(tempSubImage, tempHidingPosition.x, tempHidingPosition.y, this.grid);
         }
+        //Draw animated Tile
         for(Tile tile : this.tempTiles) {
             drawTile(tile, this.tempTilePositions.get(this.tempTiles.indexOf(tile)));
         }
     }
 
+    //Play the breaking sound when match3
     public void playBreakingTilesSound() {
         try {
         //Load breaking sound
