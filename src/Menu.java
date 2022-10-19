@@ -41,7 +41,9 @@ public class Menu extends JFrame {
 
         try {
             //Load the music
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(ClassLoader.getSystemResource("Joshua McLean - Mountain Trials.wav"));
+        	
+        	URL url = new File(parentPath + "\\Resources\\Joshua McLean - Mountain Trials.wav").toURI().toURL();
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(url);
             this.music = AudioSystem.getClip();
             this.music.open(audioInputStream);
             this.music.loop(Clip.LOOP_CONTINUOUSLY);

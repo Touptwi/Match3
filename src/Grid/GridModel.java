@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,7 +49,8 @@ public class GridModel {
 		for(Type type : Type.values()) {
 			try {
 				String parentPath = new File(System.getProperty("user.dir")).getParent();
-				this.jewelImages.add(ImageIO.read(ClassLoader.getSystemResource("\\Images\\Jewels\\" + type.name() + ".png")));
+				URL url = new File(parentPath + "\\Images\\Jewels\\" + type.name() + ".png").toURI().toURL();
+				this.jewelImages.add(ImageIO.read(url));
 			} catch (IOException e) {System.out.print("Can't load image of "+type.name());}
 
 		}

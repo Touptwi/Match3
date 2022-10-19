@@ -38,6 +38,9 @@ public class Game extends JComponent{
     	view.updateScoreLabel();
     	view.repaint();
     }
+    public void updateTimer() {
+    	view.updateTimerLabel();
+    }
     
     public void updateSpellManager() {
     	model.getSpellManager().updateView();

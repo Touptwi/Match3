@@ -1,4 +1,7 @@
 package game;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import Grid.Grid;
 import Grid.GridModel.Type;
 import spellManager.SpellManager;
@@ -9,13 +12,22 @@ public class GameModel {
     private SpellManager spellManager;
     
     private int timer;
+    private int currentTime;
     private int score;
+    
+    private Timer clock;
     
     private Game controller;
 
     public GameModel(Game controller, int timer) {
     	this.controller = controller;
     	this.timer = timer;
+    	
+    	clock = new Timer();
+    	currentTime = timer;
+    	
+    	clock.scheduleAtFixedRate(updateClock, 1000, 1000);
+
     	
     	score = 0;
         setupGrid(10,10);
@@ -49,7 +61,7 @@ public class GameModel {
     public Grid getGrid() {return this.grid;}
     public SpellManager getSpellManager() {return this.spellManager; }
     public int getTimer() {return this.timer;}
-
+    public int getClock() {return this.currentTime;}
     
     public int getScore() { return this.score; }
     public void setScore(int score) { this.score = score; }
@@ -64,4 +76,17 @@ public class GameModel {
 		
 		controller.updateSpellManager();
 	}
+	
+	// Each seconds, timer decreases
+	private TimerTask updateClock = new TimerTask() {
+		
+		@Override
+		public void run() {
+			currentTime--;
+			controller.updateTimer();
+			
+			if (currentTime == 0)
+				cancel();
+		}
+	};
 }
