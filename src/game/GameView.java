@@ -102,10 +102,21 @@ public class GameView extends JFrame {
     public void setupGrid() {
         this.gridPanel = new JPanel();
         this.gridPanel.add(this.controller.getModel().getGrid());
+        int w = 0;
+        int h = 0;
+        
     }
 
     private void setupSpellsPanel(){
         this.spellsPanel = new JPanel();
+        
+        System.out.println("width : " + this.getPreferredSize().width);
+        int preferredWidth = this.getPreferredSize().width - gridPanel.getPreferredSize().width;
+        int preferredHeight = this.getPreferredSize().height;
+        
+        System.out.println("("+preferredWidth + "," + preferredHeight + ")");
+        this.spellsPanel.setPreferredSize(new Dimension(preferredWidth, preferredHeight));
+        this.spellsPanel.setMaximumSize(new Dimension(preferredWidth, preferredHeight));
         
         this.setupScorePanel();
         this.setupTimerLabel();
@@ -114,8 +125,9 @@ public class GameView extends JFrame {
         
         
         this.spellsPanel.add(this.timerLabel);
+        this.spellsPanel.add(Box.createVerticalStrut(50));
         this.spellsPanel.add(this.controller.getSpellManager().getView().getPanel());
-        
+        this.spellsPanel.add(Box.createVerticalStrut(50));
         this.spellsPanel.add(this.scoreLabel, BorderLayout.SOUTH);
     }
     

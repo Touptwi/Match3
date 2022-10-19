@@ -21,8 +21,14 @@ public class Grid extends JComponent {
     public Grid(int rows, int columns, GameModel game) {
         this.model = new GridModel(rows, columns, this);
         this.view = new GridView();
-
+        
         this.game = game;
+        
+        int h = rows*model.getJewelSize().width;
+      	int w = columns*model.getJewelSize().height;
+        this.setMinimumSize(new Dimension(w, h));
+        System.out.println("preffered size set !");
+        
         setupMouseListener();
     }
 
