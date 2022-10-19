@@ -56,7 +56,7 @@ public class SpellManagerModel {
 		
 	}
 	private void yellowSpellEffect(Game game) {
-		
+		game.getModel().addTime(10);
 	}
 	private void purpleSpellEffect(Game game) {
 		

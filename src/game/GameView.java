@@ -51,7 +51,7 @@ public class GameView extends JFrame {
     private void setupWindow() {
         this.setTitle("Jewels Falls");
     //    this.setIconImage(new ImageIcon(ClassLoader.getSystemResource("Images/Jewels/Jewels Falls Icon.png")).getImage());
-        this.setPreferredSize(new Dimension(1000, 800));
+        this.setPreferredSize(new Dimension(875, 735));
         //Set the windows at the center of the screen
         this.setLocationRelativeTo(null);
         this.setLocation(this.getX()-500, this.getY()-400);

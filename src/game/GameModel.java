@@ -30,7 +30,7 @@ public class GameModel {
 
     	
     	score = 0;
-        setupGrid(10,10);
+        setupGrid(9,9);
         setupSpellManager();
         startTimer();
     }
@@ -39,7 +39,7 @@ public class GameModel {
         this.timer = -1;
 
         score = 0;
-        setupGrid(10,10);
+        setupGrid(9,9);
         setupSpellManager();
         startTimer();
     }
@@ -89,4 +89,10 @@ public class GameModel {
 				cancel();
 		}
 	};
+
+	public void addTime(int i) {
+		currentTime += i;
+		controller.updateTimer();
+		
+	}
 }
