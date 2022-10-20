@@ -79,7 +79,10 @@ public class GameView extends JFrame {
 	private void setupTimerLabel() {
 		timerLabel = new JLabel();
 		int timer = this.controller.getModel().getClock();
+		
 		timerLabel.setText(Integer.toString(timer));
+		if(controller.getModel().getTimer() == -1)
+			timerLabel.setText("");
 		
 		timerLabel.setFont(new Font("Serif", Font.BOLD, 40));
 		
@@ -140,8 +143,10 @@ public class GameView extends JFrame {
     }
     
     public void updateTimerLabel() {
-    	int timer = this.controller.getModel().getClock();
-    	this.timerLabel.setText(Integer.toString(timer));
+    	if (!(controller.getModel().getTimer() == -1)) {
+	    	int timer = this.controller.getModel().getClock();
+	    	this.timerLabel.setText(Integer.toString(timer));
+    	}
     }
     
     public void paint(Graphics g) {
@@ -156,4 +161,16 @@ public class GameView extends JFrame {
     														 MainPanel);
     	//g.drawString(scoreLabel.getText(), absolutePosition.x , absolutePosition.y); 
     }
+
+
+	public void endGame() {
+		this.scoreLabel.setFont(new Font("Serif", Font.BOLD, 20));
+		int score = controller.getModel().getScore();
+		this.scoreLabel.setText("Yay ! your score is");
+		
+		JLabel finalScore = new JLabel(Integer.toString(score));
+		finalScore.setFont(new Font("Serif", Font.BOLD, 20));
+		this.spellsPanel.add(finalScore);
+		
+	}
 }

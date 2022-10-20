@@ -51,4 +51,9 @@ public class Game extends JComponent{
     	super.paintComponent(g);
     	view.paint(g);
     }
+
+	public void endGame() {
+		view.endGame();
+		
+	}
 }

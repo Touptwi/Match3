@@ -85,8 +85,11 @@ public class GameModel {
 			currentTime--;
 			controller.updateTimer();
 			
-			if (currentTime == 0)
+			if (currentTime == 0) {
 				cancel();
+				if (!(timer == -1))
+					controller.endGame();
+			}
 		}
 	};
 
