@@ -1,10 +1,7 @@
 package game;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicSplitPaneUI.BasicVerticalLayoutManager;
 
 import java.awt.*;
-import java.io.File;
-import java.net.URL;
 
 import javax.sound.sampled.*;
 
@@ -24,9 +21,10 @@ public class GameView extends JFrame {
         try {
             //Load the music
         	
-        	String parentPath = new File(System.getProperty("user.dir")).getParent();
-        	URL url = new File(parentPath + "\\Resources\\Eric Skiff - A Night Of Dizzy Spells.wav").toURI().toURL();
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(url);
+//        	String parentPath = new File(System.getProperty("user.dir")).getParent();
+//        	URL url = new File(parentPath + "\\Resources\\Eric Skiff - A Night Of Dizzy Spells.wav").toURI().toURL();
+
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(ClassLoader.getSystemResource("Eric Skiff - A Night Of Dizzy Spells.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -50,7 +48,7 @@ public class GameView extends JFrame {
     
     private void setupWindow() {
         this.setTitle("Jewels Falls");
-    //    this.setIconImage(new ImageIcon(ClassLoader.getSystemResource("Images/Jewels/Jewels Falls Icon.png")).getImage());
+        this.setIconImage(new ImageIcon(ClassLoader.getSystemResource("Images/Jewels/Jewels Falls Icon.png")).getImage());
         this.setPreferredSize(new Dimension(875, 735));
         //Set the windows at the center of the screen
         this.setLocationRelativeTo(null);
