@@ -372,24 +372,6 @@ public class GridModel {
 		}
 		return Matchs;
 	}
-	
-
-	/*
-	// Donne la couleur des tuiles alignees.
-	private Type getMatchColor(ArrayList<Tile> line) {
-			if ( !(line == null)) { 
-				System.out.println("line n'est pas null");
-				for (Tile tile : line) { 
-					if ( !(tile.getType() == null)) {
-						return tile.getType();
-					}
-				}
-			}
-			
-			
-		System.out.println("getMatchColor error : le Match entre en parametre est null");
-		return null;
-	} */
 
 	//Check if there is any Tiles flying that need to fall (and make it)
 	public void checkFlyingTiles() {

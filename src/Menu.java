@@ -9,14 +9,7 @@ import javax.swing.*;
 
 import java.awt.*;
 
-import java.awt.image.BufferedImage;
-
-import java.io.File;
 import java.io.IOException;
-
-import java.net.URL;
-
-
 
 public class Menu extends JFrame {
 
@@ -26,13 +19,12 @@ public class Menu extends JFrame {
 
     public Menu() {
     	
-    	String parentPath = new File(System.getProperty("user.dir")).getParent();
-    	String iconPath = parentPath + "\\Images\\Jewels\\Jewels-Falls-Icon.ico";
-    	System.out.println(iconPath);
+//    	String parentPath = new File(System.getProperty("user.dir")).getParent();
+//    	String iconPath = "\\Images\\Jewels\\Jewels-Falls-Icon.ico";
     	
         this.setTitle("Jewels Falls");
 
-//        this.setIconImage(new ImageIcon(ClassLoader.getSystemResource(iconPath)).getImage());
+        this.setIconImage(new ImageIcon(ClassLoader.getSystemResource("Images/Jewels/Jewels-Falls-Icon.ico")).getImage());
         this.setPreferredSize(new Dimension(400, 600));
 
         //Set the windows at the center of the screen
@@ -42,8 +34,8 @@ public class Menu extends JFrame {
         try {
             //Load the music
         	
-        	URL url = new File(parentPath + "\\Resources\\Joshua McLean - Mountain Trials.wav").toURI().toURL();
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(url);
+//        	URL url = new File(parentPath + "\\Resources\\Joshua McLean - Mountain Trials.wav").toURI().toURL();
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(ClassLoader.getSystemResource("Joshua McLean - Mountain Trials.wav"));
             this.music = AudioSystem.getClip();
             this.music.open(audioInputStream);
             this.music.loop(Clip.LOOP_CONTINUOUSLY);
@@ -64,12 +56,10 @@ public class Menu extends JFrame {
                 
                 
                 try {
-                	String parentPath = new File(System.getProperty("user.dir")).getParent();
-                	System.out.println("parent path : "+ parentPath);
-                	
-                	//URL url = ClassLoader.getSystemResource(parentPath + "\\Resources\\Images\\Menu Background Title.png");
-                	URL url = new File(parentPath + "\\Resources\\Images\\Menu Background Title.png").toURI().toURL();
-                	g.drawImage(ImageIO.read(url), 0, 0, null);
+//                	String parentPath = new File(System.getProperty("user.dir")).getParent();
+//                	URL url = new File(parentPath + "\\Resources\\Images\\Menu Background Title.png").toURI().toURL();
+
+                	g.drawImage(ImageIO.read(ClassLoader.getSystemResource("Images/Menu Background Title.png")), 0, 0, null);
                 } catch (IOException e) {e.fillInStackTrace();}
             }
         });

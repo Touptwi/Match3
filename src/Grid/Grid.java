@@ -27,7 +27,6 @@ public class Grid extends JComponent {
         int h = rows*model.getJewelSize().width;
       	int w = columns*model.getJewelSize().height;
         this.setMinimumSize(new Dimension(w, h));
-        System.out.println("preffered size set !");
         
         setupMouseListener();
     }
