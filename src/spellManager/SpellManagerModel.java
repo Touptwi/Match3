@@ -29,7 +29,14 @@ public class SpellManagerModel {
 		
 		blueSpell = new Spell(15, Type.BLUE_JEWEL, game -> blueSpellEffect(game));
 		redSpell = new Spell(20, Type.RED_JEWEL, game -> redSpellEffect(game));
-		yellowSpell = new Spell(30, Type.YELLOW_JEWEL, game -> yellowSpellEffect(game));
+		yellowSpell = new Spell(20, Type.YELLOW_JEWEL, game -> {
+			try {
+				yellowSpellEffect(game);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
 		greenSpell = new Spell(40, Type.GREEN_JEWEL, game -> greenSpellEffect(game));
 		purpleSpell = new Spell(50, Type.PURPLE_JEWEL, game -> purpleSpellEffect(game));
 		
@@ -55,8 +62,8 @@ public class SpellManagerModel {
 	private void redSpellEffect(Game game) {
 		
 	}
-	private void yellowSpellEffect(Game game) {
-		game.getModel().addTime(10);
+	private void yellowSpellEffect(Game game) throws InterruptedException {
+			game.getModel().addTime(10);
 	}
 	private void purpleSpellEffect(Game game) {
 		

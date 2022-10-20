@@ -72,7 +72,7 @@ public class Menu extends JFrame {
         //Add the Button to play with timer
         JButton playClassicButton = new JButton("Play Classic");
         playClassicButton.addActionListener(e -> this.setVisible(false));
-        playClassicButton.addActionListener(e -> new Game(300, this.volume));
+        playClassicButton.addActionListener(e -> new Game(75, this.volume));
         playClassicButton.addActionListener(e -> this.music.stop());
         playClassicButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(playClassicButton);

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -77,9 +78,13 @@ public class SpellManagerView {
 		purpleSpellBar.addMouseListener(mouseListener);
 		
 		spellManagerPanel.add(blueSpellBar);
+		spellManagerPanel.add(Box.createVerticalStrut(20));
 		spellManagerPanel.add(greenSpellBar);
+		spellManagerPanel.add(Box.createVerticalStrut(20));
 		spellManagerPanel.add(purpleSpellBar);
+		spellManagerPanel.add(Box.createVerticalStrut(20));
 		spellManagerPanel.add(redSpellBar);
+		spellManagerPanel.add(Box.createVerticalStrut(20));
 		spellManagerPanel.add(yellowSpellBar);
 	}
 	
