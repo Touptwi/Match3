@@ -1,7 +1,7 @@
 package spellManager;
 
 
-import Grid.GridModel.Type;
+import grid.GridModel.Type;
 import game.Game;
 
 

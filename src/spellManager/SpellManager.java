@@ -8,7 +8,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JComponent;
 import javax.swing.JProgressBar;
 
-import Grid.GridModel.Type;
+import grid.GridModel.Type;
 import game.Game;
 
 
