@@ -1,5 +1,5 @@
 # Jewels Falls
-(by MONSINJON Samuel and )
+(by MONSINJON Samuel and MOUGEOT Axel)
 
 The Goal is to make the biggest score by making match3
 which mean align 3 tiles (or more) with the same color.
